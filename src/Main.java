@@ -94,13 +94,11 @@ public class Main {
         if(input.equals("1")){
             // 도서명으로 검색
         	System.out.println("제목을 입력해주세요 ");
-            System.out.printf(" >>");
+            System.out.printf(" >> ");
         	String bname = scanner.nextLine();
         	
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);
-            
-            System.out.println(bookList);
-            
+                       
             for (BookDTO book : bookList) {
                 System.out.println(partition);
                 System.out.println("책이름: " + book.getBname());
@@ -111,6 +109,7 @@ public class Main {
         } else if (input.equals("2")) {
             // 저자 명으로 검색
         	System.out.print("저자를 입력해주세요 ");
+            System.out.printf(" >> ");
         	String bwriter = scanner.nextLine();
         	
         	 List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
@@ -127,6 +126,7 @@ public class Main {
         } else if(input.equals("3")) {
             // 출판사 명으로 검색
         	System.out.print("출판사를 입력해주세요 ");
+            System.out.printf(" >> ");
         	String bpublisher = scanner.nextLine();
         	
         	List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
@@ -142,16 +142,16 @@ public class Main {
             this.checkBookView();
         }
         
-//        System.out.println("검색어를 입력해주세요");
-//        System.out.printf(">>");
-//        input = scanner.nextLine();
+        System.out.println("검색어를 입력해주세요");
+        System.out.printf(">>");
+        input = scanner.nextLine();
 
-//        // 검색 목록 로직
-//        System.out.println("조회할 도서를 선택 해주세요");
-//        System.out.printf(">>");
-//        input = scanner.nextLine();
+        // 검색 목록 로직
+        System.out.println("조회할 도서를 선택 해주세요");
+        System.out.printf(">>");
+        input = scanner.nextLine();
 
-//        this.goToHome();
+        this.goToHome();
 
     }
 
