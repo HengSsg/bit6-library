@@ -11,6 +11,18 @@ public class UserDTO {
     private String Comunity_YN;
     private String CDT;
 
+    public UserDTO(String ID, String PW, String name, String phone_num, String email, String address, String AUTH_code, String comunity_YN, String CDT) {
+        this.ID = ID;
+        this.PW = PW;
+        this.name = name;
+        this.phone_num = phone_num;
+        this.email = email;
+        this.address = address;
+        this.AUTH_code = AUTH_code;
+        this.Comunity_YN = comunity_YN;
+        this.CDT = CDT;
+    }
+
     public String getID() {
         return ID;
     }

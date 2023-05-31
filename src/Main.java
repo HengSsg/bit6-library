@@ -1,8 +1,11 @@
 
 import DTO.BookDTO;
+import DTO.UserDTO;
 import service.BookService;
 import service.ReportService;
+import service.UserService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,17 +14,19 @@ public class Main {
     String selectMenu = "메뉴를 선택해주세요";
     Scanner scanner = new Scanner(System.in);
 
+    UserDTO user = null;
 
-    public static void main(String[] args) {
+    UserService userService = new UserService();
+
+
+    public static void main(String[] args) throws SQLException {
 
         Main main = new Main();
-        main.reportInsertView();
+        main.mainNotLogined();
     }
 
 
-
-
-    public void mainNotLogined() { // 첫 화면
+    public void mainNotLogined() throws SQLException { // 첫 화면
         System.out.println(partition);
         System.out.println("환영합니다 도서 관리 시스템에 오신것을 환영합니다!!");
         System.out.println(selectMenu);
@@ -31,14 +36,16 @@ public class Main {
         System.out.printf(">>");
         String input = scanner.nextLine();
 
-        if(input.equals("1")){
+        if (input.equals("1")) {
 //            this.checkBookView();
-        } else  {
+        } else if (input.equals("2")) {
             this.loginView();
+        } else {
+            this.mainNotLogined();
         }
     }
 
-    public void loginView() {
+    public void loginView() throws SQLException {
         System.out.println(partition);
         System.out.println("아이디를 입력해주세요");
         String id = scanner.nextLine();
@@ -46,12 +53,21 @@ public class Main {
         String pw = scanner.nextLine();
 
         // 로그인 정보 맞는지 확인
+        user = userService.login(id, pw);
 
-        // 맞으면 로그인된 메인화면으로 이동
-        this.mainLogined();
+        if (user != null) {
+            // 맞으면 로그인된 메인화면으로 이동
+
+            this.mainLogined();
+        } else {
+            System.out.println("로그인에 실패하였습니다.\n다시 로그인 해주세요");
+                this.loginView();
+        }
+
+
     }
 
-    public void mainLogined() { // 로그인 했을때 메인 화면
+    public void mainLogined() throws SQLException { // 로그인 했을때 메인 화면
         // 1. 도서 조회 => checkBook()
         // 2. 커뮤니티
         // 3. 로그아웃??
@@ -63,10 +79,13 @@ public class Main {
         System.out.println("3. 로그아웃");
         System.out.printf(">>");
         String input = scanner.nextLine();
-        if(input.equals("1")){
+        if (input.equals("1")) {
 //            this.checkBookView();
         } else if (input.equals("2")) {
             this.communityView();
+        } else if (input.equals("3")) {
+            user = null;
+            this.mainNotLogined();
         } else {
             // 로그인 정보 없애고
             // mainNotLogined()으로 이동
@@ -75,7 +94,7 @@ public class Main {
 
     }
 
-    public void reportInsertView(){
+    public void reportInsertView() {
         System.out.println(partition);
         System.out.println("독후감 작성");
         System.out.println(partition);
@@ -145,7 +164,7 @@ public class Main {
 //        this.goToHome();
 //
 //    }
-    
+
 //    public void bookInfo() {
 //    	List<BookDTO> bookList = BookService.bookSelectTitle(bname);
 //    	for (BookDTO book : bookList) {
@@ -160,7 +179,7 @@ public class Main {
 
     }
 
-    public void goToHome() {
+    public void goToHome() throws SQLException {
         System.out.println("1. 예약하기");
         System.out.println("2. 처음으로");
         System.out.printf(">>");
