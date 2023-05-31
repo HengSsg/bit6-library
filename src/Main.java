@@ -11,14 +11,10 @@ public class Main {
     String selectMenu = "메뉴를 선택해주세요";
     Scanner scanner = new Scanner(System.in);
 
-
     public static void main(String[] args) {
-
         Main main = new Main();
-        main.reportInsertView();
+        main.mainNotLogined();
     }
-
-
 
 
     public void mainNotLogined() { // 첫 화면
@@ -27,12 +23,12 @@ public class Main {
         System.out.println(selectMenu);
         System.out.println("1. 도서 조회");
         System.out.println("2. 로그인");
-//        System.out.println(partition);
+        System.out.println(partition);
         System.out.printf(">>");
         String input = scanner.nextLine();
 
         if(input.equals("1")){
-//            this.checkBookView();
+            this.checkBookView();
         } else  {
             this.loginView();
         }
@@ -64,7 +60,7 @@ public class Main {
         System.out.printf(">>");
         String input = scanner.nextLine();
         if(input.equals("1")){
-//            this.checkBookView();
+            this.checkBookView();
         } else if (input.equals("2")) {
             this.communityView();
         } else {
@@ -84,77 +80,80 @@ public class Main {
         reportService.insertReport();
     }
 
-//    public void checkBookView() { // 도서 조회
-//    	BookService bookService = new BookService();
-//
-//        System.out.println(partition);
-//        System.out.println("조회할 항목을 선택해주세요");
-//        System.out.println("1. 도서 명");
-//        System.out.println("2. 저자 명");
-//        System.out.println("3. 출판사 명");
-//        System.out.printf(">>");
-//        String input = scanner.nextLine();
-//
-//        if(input.equals("1")){
-//            // 도서명으로 검색
-//        	System.out.print("제목을 입력해주세요 ");
-//        	String bname = scanner.nextLine();
-////        	List<BookDTO> bookList = BookService.bookSelectTitle(bname);
-//        	for (BookDTO book : bookList) {
-//            System.out.println(partition);
-//            System.out.println("책이름 : " + book.getBname() );
-//            System.out.println("저자 " + book.getBwriter());
-//            System.out.println("출판사 " + book.getBpublisher());
-//        	}
-//        } else if (input.equals("2")) {
-//            // 저자 명으로 검색
-//        	System.out.print("저자를 입력해주세요 ");
-//        	String bwriter = scanner.nextLine();
-//        	List<BookDTO> bookList = BookService.bookSelectTitle(bwriter);
-//        	for (BookDTO book : bookList) {
-//            System.out.println(partition);
-//            System.out.println("책이름 : " + book.getBname() );
-//            System.out.println("저자 " + book.getBwriter());
-//            System.out.println("출판사 " + book.getBpublisher());
-//        	}
-//        } else if(input.equals("3")) {
-//            // 출판사 명으로 검색
-//        	System.out.print("출판사를 입력해주세요 ");
-//        	String bpublisher = scanner.nextLine();
-//
-//        	List<BookDTO> bookList = BookService.bookSelectTitle(bpublisher);
-//        	for (BookDTO book : bookList) {
-//            System.out.println(partition);
-//            System.out.println("책이름 : " + book.getBname() );
-//            System.out.println("저자 " + book.getBwriter());
-//            System.out.println("출판사 " + book.getBpublisher());
-//        	}
-//        } else {
-//            this.checkBookView();
-//        }
+    public void checkBookView() { // 도서 조회
+
+        // System.out.println(partition);
+        System.out.println("조회할 항목을 선택해주세요");
+        System.out.println("1. 도서 명");
+        System.out.println("2. 저자 명");
+        System.out.println("3. 출판사 명");
+        System.out.printf(">>");
+        
+        String input = scanner.nextLine();
+        BookService bookService = new BookService();
+        if(input.equals("1")){
+            // 도서명으로 검색
+        	System.out.println("제목을 입력해주세요 ");
+            System.out.printf(" >>");
+        	String bname = scanner.nextLine();
+        	
+            List<BookDTO> bookList = bookService.bookSelectTitle(bname);
+            
+            System.out.println(bookList);
+            
+            for (BookDTO book : bookList) {
+                System.out.println(partition);
+                System.out.println("책이름: " + book.getBname());
+                System.out.println("저자: " + book.getBwriter());
+                System.out.println("출판사: " + book.getBpublisher());
+            }
+        	
+        } else if (input.equals("2")) {
+            // 저자 명으로 검색
+        	System.out.print("저자를 입력해주세요 ");
+        	String bwriter = scanner.nextLine();
+        	
+        	 List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
+
+             System.out.println(bookList);
+             
+             for (BookDTO book : bookList) {
+                 System.out.println(partition);
+                 System.out.println("책이름: " + book.getBname());
+                 System.out.println("저자: " + book.getBwriter());
+                 System.out.println("출판사: " + book.getBpublisher());
+             }
+        	
+        } else if(input.equals("3")) {
+            // 출판사 명으로 검색
+        	System.out.print("출판사를 입력해주세요 ");
+        	String bpublisher = scanner.nextLine();
+        	
+        	List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
+
+            for (BookDTO book : bookList) {
+                System.out.println(partition);
+                System.out.println("책이름: " + book.getBname());
+                System.out.println("저자: " + book.getBwriter());
+                System.out.println("출판사: " + book.getBpublisher());
+            }
+        	
+        } else {
+            this.checkBookView();
+        }
+        
 //        System.out.println("검색어를 입력해주세요");
 //        System.out.printf(">>");
 //        input = scanner.nextLine();
-//
+
 //        // 검색 목록 로직
-//
 //        System.out.println("조회할 도서를 선택 해주세요");
 //        System.out.printf(">>");
 //        input = scanner.nextLine();
-//
+
 //        this.goToHome();
-//
-//    }
-    
-//    public void bookInfo() {
-//    	List<BookDTO> bookList = BookService.bookSelectTitle(bname);
-//    	for (BookDTO book : bookList) {
-//        System.out.println(partition);
-//        System.out.println("책이름 : " + book.getBname() );
-//        System.out.println("저자 " + book.getBwriter());
-//        System.out.println("출판사 " + book.getBpublisher());
-//    	}
-//    }
+
+    }
 
     public void communityView() { // 커뮤니티 눌렀을때
 
