@@ -21,7 +21,11 @@ public class UserService {
         } else {
             return null;
         }
-
-
     }
+
+    public void upgradeAuth() {
+        userDAO.updateAuth();
+    }
+
+
 }

@@ -57,7 +57,7 @@ public class Main {
 
         if (user != null) {
             // 맞으면 로그인된 메인화면으로 이동
-
+            System.out.println("로그인 성공하였습니다!!");
             this.mainLogined();
         } else {
             System.out.println("로그인에 실패하였습니다.\n다시 로그인 해주세요");
@@ -85,11 +85,12 @@ public class Main {
             this.communityView();
         } else if (input.equals("3")) {
             user = null;
+            System.out.println("로그아웃 하였습니다!!");
             this.mainNotLogined();
         } else {
             // 로그인 정보 없애고
             // mainNotLogined()으로 이동
-            this.mainNotLogined();
+            this.mainLogined();
         }
 
     }
