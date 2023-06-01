@@ -81,17 +81,15 @@ public class Main {
         System.out.printf(">>");
         String input = scanner.nextLine();
         if (input.equals("1")) {
-//            this.checkBookView();
+            this.checkBookView();
         } else if (input.equals("2")) {
             this.communityView();
         } else if (input.equals("3")) {
+
+        } else {
             user = null;
             System.out.println("로그아웃 하였습니다!!");
             this.mainNotLogined();
-        } else {
-            // 로그인 정보 없애고
-            // mainNotLogined()으로 이동
-            this.mainLogined();
         }
 
     }
@@ -176,16 +174,12 @@ public class Main {
             this.checkBookView();
         }
 
-        System.out.println("검색어를 입력해주세요");
-        System.out.printf(">>");
-        input = scanner.nextLine();
 
-        // 검색 목록 로직
-        System.out.println("조회할 도서를 선택 해주세요");
-        System.out.printf(">>");
-        input = scanner.nextLine();
-
-        this.goToHome();
+        if (user != null) {
+            this.goToHome();
+        } else {
+            this.mainNotLogined();
+        }
 
     }
 
@@ -195,15 +189,42 @@ public class Main {
 
     public void goToHome() throws SQLException {
         System.out.println("1. 예약하기");
-        System.out.println("2. 처음으로");
+        System.out.println("2. 대출하기");
+        System.out.println("3. 처음으로");
         System.out.printf(">>");
         String input = scanner.nextLine();
 
         if (input.equals("1")) {
             System.out.println("정말 예약 하시겠습니까?");
+            System.out.println("1. 예");
+            System.out.println("2. 아니요");
             System.out.printf(">>");
             input = scanner.nextLine();
 
+            if (input.equals("1")) {
+                // 책 예약 로직 추가해야 함
+                System.out.println("예약이 완료 되었습니다.");
+                this.mainLogined();
+
+            } else {
+                this.goToHome();
+            }
+
+        } else if (input.equals("2")) {
+            System.out.println("정말 대출 하시겠습니까?");
+            System.out.println("1. 예");
+            System.out.println("2. 아니요");
+            System.out.printf(">>");
+            input = scanner.nextLine();
+
+            if (input.equals("1")) {
+                // 책 예약 로직 추가해야 함
+                System.out.println("대출이 완료 되었습니다.");
+                this.mainLogined();
+
+            } else {
+                this.goToHome();
+            }
         } else {
             this.mainLogined();
 
