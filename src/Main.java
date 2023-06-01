@@ -32,14 +32,14 @@ public class Main {
         System.out.println(selectMenu);
         System.out.println("1. 도서 조회");
         System.out.println("2. 로그인");
-//        System.out.println(partition);
+        System.out.println(partition);
         System.out.printf(">>");
         String input = scanner.nextLine();
 
         try {
-            if (input.equals("1")) {
+            if ("1".equals(input)) {
                 this.checkBookView();
-            } else if (input.equals("2")) {
+            } else if ("2".equals(input)) {
                 this.loginView();
             } else {
                 this.mainNotLogined();
@@ -62,6 +62,7 @@ public class Main {
 
         if (user != null) {
             // 맞으면 로그인된 메인화면으로 이동
+            System.out.println(user.getNo());
             System.out.println("로그인 성공하였습니다!!");
             this.mainLogined();
         } else {
@@ -85,11 +86,11 @@ public class Main {
         System.out.println("4. 로그아웃");
         System.out.printf(">>");
         String input = scanner.nextLine();
-        if (input.equals("1")) {
+        if ("1".equals(input)) {
             this.checkBookView();
-        } else if (input.equals("2")) {
+        } else if ("2".equals(input)) {
             this.communityView();
-        } else if (input.equals("3")) {
+        } else if ("3".equals(input)) {
 
         } else {
             user = null;
@@ -108,21 +109,23 @@ public class Main {
         reportService.insertReport();
     }
 
-    public void checkBookView()  { // 도서 조회
+    public void checkBookView() { // 도서 조회
 
-        // System.out.println(partition);
+         System.out.println(partition);
         System.out.println("조회할 항목을 선택해주세요");
         System.out.println("1. 도서 명");
         System.out.println("2. 저자 명");
         System.out.println("3. 출판사 명");
-        System.out.printf(">>");
+        System.out.println(partition);
 
+        System.out.print(">>");
         String input = scanner.nextLine();
+
         BookService bookService = new BookService();
-        if (input.equals("1")) {
+        if ("1".equals(input)) {
             // 도서명으로 검색
             System.out.println("제목을 입력해주세요 ");
-            System.out.printf(" >> ");
+            System.out.print(" >> ");
             String bname = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);

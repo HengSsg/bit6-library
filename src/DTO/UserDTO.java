@@ -1,6 +1,7 @@
 package DTO;
 
 public class UserDTO {
+    private int no;
     private String ID;
     private String PW;
     private String name;
@@ -11,7 +12,9 @@ public class UserDTO {
     private String Comunity_YN;
     private String CDT;
 
-    public UserDTO(String ID, String PW, String name, String phone_num, String email, String address, String AUTH_code, String comunity_YN, String CDT) {
+
+    public UserDTO(int no,String ID, String PW, String name, String phone_num, String email, String address, String AUTH_code, String comunity_YN, String CDT) {
+        this.no = no;
         this.ID = ID;
         this.PW = PW;
         this.name = name;
@@ -21,6 +24,14 @@ public class UserDTO {
         this.AUTH_code = AUTH_code;
         this.Comunity_YN = comunity_YN;
         this.CDT = CDT;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public String getID() {

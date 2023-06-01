@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddBooks {
 
@@ -24,6 +27,16 @@ public class AddBooks {
 
         String line = null;
         BookDTO dto = null;
+        int no = 0;
+        // 현재 날짜 구하기
+        LocalDate now = LocalDate.now();
+
+        // 포맷 정의
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 포맷 적용
+        String formatedNow = now.format(formatter);
+
         while ((line = br.readLine()) != null) {
             //System.out.println(line);
             //하나의 라인에서 11개의 데이터 분리
@@ -34,8 +47,9 @@ public class AddBooks {
             //DTO객체 만들기
             //리스트에 저장하기
             data.add(
-                    new BookDTO(0, bname, bwriter, bpublisher, null, null, null)
+                    new BookDTO(no, bname, bwriter, bpublisher, null, formatedNow, null)
             );
+            no++;
         }
 
 
@@ -49,24 +63,17 @@ public class AddBooks {
             con.setAutoCommit(false);
             int count = 0;
             // sql 작성
-            String sql = "insert into gisaTBL values (?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into book(bname, bwriter, bpublisher, cdt) values (?,?,?,?)";
 
             // 쿼리 (전용) 전송 통로 생성
             PreparedStatement pstmt = con.prepareStatement(sql);
 
             for (BookDTO dto1 : data) {
                 // 통로를 통해서 쿼리 실행
-//                pstmt.setString(1, dto1.get());
-//                pstmt.setString(2, dto1.getEmail());
-//                pstmt.setInt(3, dto1.getKor());
-//                pstmt.setInt(4, dto1.getEng());
-//                pstmt.setInt(5, dto1.getMath());
-//                pstmt.setInt(6, dto1.getSci());
-//                pstmt.setInt(7, dto1.getHist());
-//                pstmt.setInt(8, dto1.getTotal());
-//                pstmt.setString(9, dto1.getMgrCode());
-//                pstmt.setString(10, dto1.getAccCode());
-//                pstmt.setString(11, dto1.getLocCode());
+                pstmt.setString(1, dto1.getBname());
+                pstmt.setString(2, dto1.getBwriter());
+                pstmt.setString(3, dto1.getBpublisher());
+                pstmt.setString(4, dto1.getCDT());
                 pstmt.addBatch();
                 count++;
                 if(count % 100 == 0) {

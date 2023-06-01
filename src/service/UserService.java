@@ -7,7 +7,11 @@ import java.sql.SQLException;
 
 public class UserService {
 
-    UserDAO userDAO = new UserDAO();
+    UserDAO userDAO;
+
+    public UserService() {
+        userDAO = new UserDAO();
+    }
 
 
     public UserDTO login(String id, String pw) { // 사용자 로그인

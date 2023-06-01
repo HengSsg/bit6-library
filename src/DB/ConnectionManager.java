@@ -24,11 +24,7 @@ public class ConnectionManager {
             String password = properties.getProperty("password");
             Class.forName(driver);
             con = DriverManager.getConnection(jdbcURL, id, password);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return con;
