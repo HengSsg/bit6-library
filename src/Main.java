@@ -108,17 +108,19 @@ public class Main {
         System.out.println(partition);
 
         ReportService reportService = new ReportService();
-        reportService.insertReport();
+        reportService.findByUserNo(user.getNo());
     }
 
     public void checkBookView() { // 도서 조회
 
-         System.out.println(partition);
+        System.out.println(partition);
         System.out.println("조회할 항목을 선택해주세요");
         System.out.println("1. 도서 명");
         System.out.println("2. 저자 명");
         System.out.println("3. 출판사 명");
         System.out.println(partition);
+        System.out.println("4. 최다 대출 도서 확인");
+        System.out.printf(">>");
 
         System.out.print(">>");
         String input = scanner.nextLine();
@@ -135,14 +137,14 @@ public class Main {
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState();
                 System.out.println(partition);
-                System.out.println("책번호: "+ ++i);
+                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
                 System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
-            if(user != null) {
+            if (user != null) {
                 this.rentbookview(bookList);
             }
         } else if (input.equals("2")) {
@@ -158,14 +160,14 @@ public class Main {
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState();
                 System.out.println(partition);
-                System.out.println("책번호: "+ ++i);
+                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
                 System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
-            if(user != null) {
+            if (user != null) {
                 this.rentbookview(bookList);
             }
 
@@ -180,16 +182,23 @@ public class Main {
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState();
                 System.out.println(partition);
-                System.out.println("책번호: "+ ++i);
+                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
                 System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
-            if(user != null) {
+            if (user != null) {
                 this.rentbookview(bookList);
             }
+        } else if (input.equals("4")) {
+
+            System.out.println(partition);
+
+            String mostBorrowedBook = bookService.getMostBorrowedBookName();
+
+            System.out.println("최다 대출 도서는 " + mostBorrowedBook + "입니다.");
         } else {
             this.checkBookView();
         }
@@ -197,53 +206,62 @@ public class Main {
         this.goToHome();
 
     }
-    public void returnBook(){
+
+    public void returnBook() {
 
     }
+
     public void rentbookview(List bookList) {
         System.out.println("대출할 책 번호를 입력해주세요");
         System.out.print(">>");
         String input = scanner.nextLine();
-        BookDTO book = (BookDTO) bookList.get(Integer.parseInt(input)-1);
+        BookDTO book = (BookDTO) bookList.get(Integer.parseInt(input) - 1);
         String bname = book.getBname();
-        System.out.println(bname+" 책을 대출하시겠습니까?");;
+        System.out.println(bname + " 책을 대출하시겠습니까?");
+        ;
         System.out.println("1. 대출하기");
         System.out.println("2. 나가기");
         System.out.print(">>");
-        System.out.println(book.getNo()+"+"+user.getNo());
+        System.out.println(book.getNo() + "+" + user.getNo());
         input = scanner.nextLine();
         if ("1".equals(input)) {
             Rent_BookService rent_bookService = new Rent_BookService();
-            if(rent_bookService.Rent_Book(book.getNo(), user.getNo())){
-                System.out.println(bname+"정상 데이터 베이스 삽입");
+            if (rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
+                System.out.println(bname + "정상 데이터 베이스 삽입");
                 this.mainLogined();
             }
-        }else if("2".equals(input)) {
+        } else if ("2".equals(input)) {
             this.mainLogined();
-        }else{
+        } else {
             this.rentbookview(bookList);
         }
     }
-    public void communityView() { // 커뮤니티 눌렀을때
+
+    public void communityView () { // 커뮤니티 눌렀을때
         System.out.println(partition);
         System.out.println(selectMenu);
         System.out.println("1. 독후감 작성");
+        System.out.println("2. 내가 쓴 독후감 보기");
         System.out.printf(">>");
-        String input = scanner.nextLine();
-        if (input.equals("1")) {
+        String input = scanner.nextLine(); //
+
+        if ("1".equals(input)) {
+            ReportService reportService = new ReportService();
+            reportService.findByUserNo(user.getNo());
+        } else if ("2".equals(input)) {
 
         } else {
-
+            this.goToHome();
         }
     }
 
-    public void RentBookView() {
+    public void RentBookView () {
         System.out.println(partition);
         System.out.println("반납할 책 이름을 입력해주세요");
         System.out.println(">>");
     }
 
-    public void goToHome() {
+    public void goToHome () {
         System.out.println("1. 예약하기");
         System.out.println("2. 대출하기");
         System.out.println("3. 처음으로");
@@ -288,4 +306,5 @@ public class Main {
 
     }
 }
+
 
