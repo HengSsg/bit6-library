@@ -185,4 +185,47 @@ public class BookDAO {
 
 		return result;
 	}
+
+	// 최다 도서 대출 조회
+	public String getMostBorrowedBookName() {
+		Connection conn = ConnectionManager.getConnection();
+
+		String mostBorrowedBookName = "";
+
+		String sql = "SELECT b.bname " +
+				"FROM rent_book r " +
+				"JOIN book b ON r.book_no = b.no " +
+				"GROUP BY r.book_no " +
+				"ORDER BY COUNT(*) DESC " +
+				"LIMIT 1";
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				mostBorrowedBookName = rs.getString("bname");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null || pstmt != null || conn != null) {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return mostBorrowedBookName;
+	}
+
 }

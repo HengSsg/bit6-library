@@ -7,6 +7,17 @@ public class ReportDTO {
     private int book_no;
     private String CDT;
 
+    public String getBname() {
+        return bname;
+    }
+
+    public void setBname(String bname) {
+        this.bname = bname;
+    }
+
+    //조회
+    private String bname;
+
     public String getTitle() {
         return title;
     }
