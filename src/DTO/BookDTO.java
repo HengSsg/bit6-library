@@ -7,12 +7,12 @@ public class BookDTO {
 	private String bpublisher;
 	private String bgrade;
 	private String CDT;
-	private String display; // 전시 OR 보관 1 true 0 false( 검색 x) 
-	
+	private String display; // 전시 OR 보관 1 true 0 false( 검색 x)
+
 	public BookDTO() {
-		
+
 	}
-	
+
 	public BookDTO(int no, String bname, String bwriter, String bpublisher, String bgrade, String cDT, String display) {
 		super();
 		this.no = no;
@@ -23,12 +23,12 @@ public class BookDTO {
 		CDT = cDT;
 		this.display = display;
 	}
-	
+
 	public BookDTO(String bname, String bwriter, String bpublisher) {
 		this.bname = bname;
 		this.bwriter = bwriter;
 		this.bpublisher = bpublisher;
-	
+
 	}
 
 	public int getNo() {
@@ -92,5 +92,6 @@ public class BookDTO {
 		return "BookDTO [no=" + no + ", bname=" + bname + ", bwriter=" + bwriter + ", bpublisher=" + bpublisher
 				+ ", bgrade=" + bgrade + ", CDT=" + CDT + ", display=" + display + "]";
 	}
-	
+
+
 }

@@ -41,7 +41,15 @@ public class UserDAO {
         return user;
     }
 
-    public void updateAuth() {
+    public void updateAuth(String grade, String username) throws SQLException {
         Connection con = ConnectionManager.getConnection();
+        String sql = "update user set auth_code=? where name=?;";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, grade);
+        pstmt.setString(2, username);
+        pstmt.executeQuery();
+
+        con.close();
+        pstmt.close();
     }
 }

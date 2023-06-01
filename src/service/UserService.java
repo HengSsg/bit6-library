@@ -15,7 +15,7 @@ public class UserService {
 
         user = userDAO.selectUser(id);
 
-        if(user.getPW().equals(pw)) {
+        if (user.getPW().equals(pw)) {
             return user;
 
         } else {
@@ -23,8 +23,17 @@ public class UserService {
         }
     }
 
-    public void upgradeAuth() {
-        userDAO.updateAuth();
+    public boolean upgradeAuth(String grade, String username) {
+        boolean flag = false;
+
+        try {
+            userDAO.updateAuth(grade, username);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return flag;
     }
 
 
