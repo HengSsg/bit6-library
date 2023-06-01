@@ -21,8 +21,7 @@ public class Main {
     UserService userService = new UserService();
 
 
-    public static void main(String[] args) throws SQLException {
-
+    public static void main(String[] args) {
         Main main = new Main();
         main.mainNotLogined();
     }
@@ -34,6 +33,7 @@ public class Main {
         System.out.println(selectMenu);
         System.out.println("1. 도서 조회");
         System.out.println("2. 로그인");
+        System.out.println("3. 종료");
         System.out.println(partition);
         System.out.printf(">>");
         String input = scanner.nextLine();
@@ -43,6 +43,8 @@ public class Main {
                 this.checkBookView();
             } else if ("2".equals(input)) {
                 this.loginView();
+            } else if ("3".equals(input)) {
+                this.close();
             } else {
                 this.mainNotLogined();
             }
@@ -86,6 +88,7 @@ public class Main {
         System.out.println("2. 커뮤니티");
         System.out.println("3. 도서반납");
         System.out.println("4. 로그아웃");
+        System.out.println("5. 종료");
         System.out.printf(">>");
         String input = scanner.nextLine();
         if ("1".equals(input)) {
@@ -93,11 +96,13 @@ public class Main {
         } else if ("2".equals(input)) {
             this.communityView();
         } else if ("3".equals(input)) {
-
+            this.RentBookView();
         } else if ("4".equals(input)) {
             user = null;
             System.out.println("로그아웃 하였습니다!!");
             this.mainNotLogined();
+        } else if ("5".equals(input)) {
+            this.close();
         }
 
     }
@@ -113,7 +118,7 @@ public class Main {
 
     public void checkBookView() { // 도서 조회
 
-         System.out.println(partition);
+        System.out.println(partition);
         System.out.println("조회할 항목을 선택해주세요");
         System.out.println("1. 도서 명");
         System.out.println("2. 저자 명");
@@ -135,14 +140,14 @@ public class Main {
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState();
                 System.out.println(partition);
-                System.out.println("책번호: "+ ++i);
+                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
                 System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
-            if(user != null) {
+            if (user != null) {
                 this.rentbookview(bookList);
             }
         } else if (input.equals("2")) {
@@ -158,14 +163,14 @@ public class Main {
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState();
                 System.out.println(partition);
-                System.out.println("책번호: "+ ++i);
+                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
                 System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
-            if(user != null) {
+            if (user != null) {
                 this.rentbookview(bookList);
             }
 
@@ -180,14 +185,14 @@ public class Main {
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState();
                 System.out.println(partition);
-                System.out.println("책번호: "+ ++i);
+                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
                 System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
-            if(user != null) {
+            if (user != null) {
                 this.rentbookview(bookList);
             }
         } else {
@@ -197,33 +202,37 @@ public class Main {
         this.goToHome();
 
     }
-    public void returnBook(){
+
+    public void returnBook() {
 
     }
+
     public void rentbookview(List bookList) {
         System.out.println("대출할 책 번호를 입력해주세요");
         System.out.print(">>");
         String input = scanner.nextLine();
-        BookDTO book = (BookDTO) bookList.get(Integer.parseInt(input)-1);
+        BookDTO book = (BookDTO) bookList.get(Integer.parseInt(input) - 1);
         String bname = book.getBname();
-        System.out.println(bname+" 책을 대출하시겠습니까?");;
+        System.out.println(bname + " 책을 대출하시겠습니까?");
+        ;
         System.out.println("1. 대출하기");
         System.out.println("2. 나가기");
         System.out.print(">>");
-        System.out.println(book.getNo()+"+"+user.getNo());
+        System.out.println(book.getNo() + "+" + user.getNo());
         input = scanner.nextLine();
         if ("1".equals(input)) {
             Rent_BookService rent_bookService = new Rent_BookService();
-            if(rent_bookService.Rent_Book(book.getNo(), user.getNo())){
-                System.out.println(bname+"정상 데이터 베이스 삽입");
+            if (rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
+                System.out.println(bname + "정상 데이터 베이스 삽입");
                 this.mainLogined();
             }
-        }else if("2".equals(input)) {
+        } else if ("2".equals(input)) {
             this.mainLogined();
-        }else{
+        } else {
             this.rentbookview(bookList);
         }
     }
+
     public void communityView() { // 커뮤니티 눌렀을때
         System.out.println(partition);
         System.out.println(selectMenu);
@@ -286,6 +295,28 @@ public class Main {
 
         }
 
+    }
+
+    public void close() {
+        System.out.println(partition);
+        System.out.println("정말로 종료하시겠습니까??");
+        System.out.println("1. 예");
+        System.out.println("2. 아니요");
+        System.out.println(partition);
+        System.out.print(">>");
+        String input = scanner.nextLine();
+
+        if ("1".equals(input)) {
+            System.exit(0);
+        } else if ("2".equals(input)) {
+            if (user != null) {
+                this.mainLogined();
+            } else {
+                this.mainNotLogined();
+            }
+        } else {
+            this.close();
+        }
     }
 }
 
