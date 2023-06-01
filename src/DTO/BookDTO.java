@@ -1,5 +1,6 @@
 package DTO;
 
+
 public class BookDTO {
 	private int no;
 	private String bname;
@@ -8,6 +9,17 @@ public class BookDTO {
 	private String bgrade;
 	private String CDT;
 	private String display; // 전시 OR 보관 1 true 0 false( 검색 x)
+	
+	//조회용
+	private String rentMsg; 
+
+	public String getRentMsg() {
+		return rentMsg;
+	}
+
+	public void setRentMsg(String rentMsg) {
+		this.rentMsg = rentMsg;
+	}
 
 	public BookDTO() {
 
@@ -28,6 +40,7 @@ public class BookDTO {
 		this.bname = bname;
 		this.bwriter = bwriter;
 		this.bpublisher = bpublisher;
+
 	}
 
 	public int getNo() {

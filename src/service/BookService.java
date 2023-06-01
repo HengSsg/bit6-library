@@ -5,7 +5,6 @@ import DAO.BookDAO;
 import DTO.BookDTO;
 
 public class BookService {
-
 	private BookDAO dao;
 
 	public BookService() {
@@ -33,21 +32,11 @@ public class BookService {
 		return bookList;
 	}
 
-	// 해당 도서의 상태를 조회
-	public String bookState() {
-		String bookStatus = dao.bookState();
-
-		if (bookStatus.equals("대출가능")) {
-			return "대출가능";
-		} else {
-			return "대출중";
-		}
-	}
 
 	// 최다 도서 대출 조회
-	public String getMostBorrowedBookName() {
-		String mostBorrowedBookName = dao.getMostBorrowedBookName();
-		return mostBorrowedBookName;
-	}
+	   public String getMostBorrowedBookName() {
+	       String mostBorrowedBookName = dao.getMostBorrowedBookName();
+	       return mostBorrowedBookName;
+	   }
 
 }

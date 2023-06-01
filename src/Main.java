@@ -161,98 +161,95 @@ public class Main {
     public void checkBookView() { // 도서 조회
 
         System.out.println(partition);
-        System.out.println("조회할 항목을 선택해주세요");
-        System.out.println("1. 도서 명");
-        System.out.println("2. 저자 명");
-        System.out.println("3. 출판사 명");
-        System.out.println(partition);
-        System.out.println("4. 최다 대출 도서 확인");
-        System.out.printf(">>");
+       System.out.println("조회할 항목을 선택해주세요");
+       System.out.println("1. 도서 명");
+       System.out.println("2. 저자 명");
+       System.out.println("3. 출판사 명");
+       System.out.println("4. 최다 대출 도서 확인");
+       System.out.printf(">>");
+       
+       System.out.println(partition);
 
-        System.out.print(">>");
-        String input = scanner.nextLine();
+       System.out.print(">>");
 
-        BookService bookService = new BookService();
-        if ("1".equals(input)) {
-            // 도서명으로 검색
-            System.out.println("제목을 입력해주세요 ");
-            System.out.print(" >> ");
-            String bname = scanner.nextLine();
+       String input = scanner.nextLine();
 
-            List<BookDTO> bookList = bookService.bookSelectTitle(bname);
-            int i = 0;
+       BookService bookService = new BookService();
+
+       if(input.equals("1")){
+           // 도서명으로 검색
+          System.out.println("제목을 입력해주세요 ");
+           System.out.printf(" >> ");
+          String bname = scanner.nextLine();
+
+           List<BookDTO> bookList = bookService.bookSelectTitle(bname);
+                      
+           for (BookDTO book : bookList) {
+  
+               System.out.println(partition);
+               System.out.println("책이름: " + book.getBname());
+               System.out.println("저자: " + book.getBwriter());
+               System.out.println("출판사: " + book.getBpublisher());
+               System.out.println("상태 : " + book.getRentMsg());
+               System.out.println(partition);
+           }
+          
+       } else if (input.equals("2")) {
+           // 저자 명으로 검색
+          System.out.print("저자를 입력해주세요 ");
+           System.out.printf(" >> ");
+          String bwriter = scanner.nextLine();
+          
+           List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
+           
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
+     
                 System.out.println(partition);
-                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
+                System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
-            if (user != null) {
-                this.rentbookview(bookList);
-            }
-        } else if (input.equals("2")) {
-            // 저자 명으로 검색
-            System.out.print("저자를 입력해주세요 ");
-            System.out.printf(">> ");
-            String bwriter = scanner.nextLine();
+          
+       } else if(input.equals("3")) {
+           // 출판사 명으로 검색
+          System.out.print("출판사를 입력해주세요 ");
+           System.out.printf(" >> ");
+          String bpublisher = scanner.nextLine();
+          
+          List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
 
-            List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
+           for (BookDTO book : bookList) {
+      
+               System.out.println(partition);
+               System.out.println("책이름: " + book.getBname());
+               System.out.println("저자: " + book.getBwriter());
+               System.out.println("출판사: " + book.getBpublisher());
+               System.out.println("상태 : " + book.getRentMsg());
+               System.out.println(partition);
+           }
+          
+       } else if(input.equals("4")) {
+          
+           System.out.println(partition);
+           
+           String mostBorrowedBook = bookService.getMostBorrowedBookName();
 
-            System.out.println(bookList);
-            int i = 0;
-            for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
-                System.out.println(partition);
-                System.out.println("책번호: " + ++i);
-                System.out.println("책이름: " + book.getBname());
-                System.out.println("저자: " + book.getBwriter());
-                System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
-                System.out.println(partition);
-            }
-            if (user != null) {
-                this.rentbookview(bookList);
-            }
+           System.out.println("최다 대출 도서는 " + mostBorrowedBook + " 입니다.");
+       }
+       
+       else {
+           this.checkBookView();
+       }
 
-        } else if (input.equals("3")) {
-            // 출판사 명으로 검색
-            System.out.print("출판사를 입력해주세요 ");
-            System.out.printf(" >> ");
-            String bpublisher = scanner.nextLine();
+       if (user != null) {
+           this.goToHome();
+       } else {
+           this.mainNotLogined();
+       }
 
-            List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
-            int i = 0;
-            for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
-                System.out.println(partition);
-                System.out.println("책번호: " + ++i);
-                System.out.println("책이름: " + book.getBname());
-                System.out.println("저자: " + book.getBwriter());
-                System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
-                System.out.println(partition);
-            }
-            if (user != null) {
-                this.rentbookview(bookList);
-            }
-        } else if (input.equals("4")) {
-
-            System.out.println(partition);
-
-            String mostBorrowedBook = bookService.getMostBorrowedBookName();
-
-            System.out.println("최다 대출 도서는 " + mostBorrowedBook + "입니다.");
-        } else {
-            this.checkBookView();
-        }
-
-        this.goToHome();
-
-    }
+   }
 
     public void returnBook() {
 
