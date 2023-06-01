@@ -226,4 +226,46 @@ public class BookDAO {
         
          return mostBorrowedBookName;
     }
+    
+ // 최소 도서 대출 조회
+    public String getLeastBorrowBook() {
+        Connection conn = ConnectionManager.getConnection();
+        
+        String leastBorrowBook = "";
+        
+         String sql = "SELECT b.bname " +
+                  "FROM rent_book r " +
+                  "JOIN book b ON r.book_no = b.no " +
+                  "GROUP BY r.book_no " +
+                  "ORDER BY COUNT(*) ASC " +
+                  "LIMIT 1";
+         
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                mostBorrowedBookName = rs.getString("bname");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null || pstmt != null || conn != null) {
+                try {
+                    rs.close();
+                    pstmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        
+        }
+        
+         return leastBorrowBook;
+    }
 }

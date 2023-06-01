@@ -38,4 +38,9 @@ public class BookService {
 	       return mostBorrowedBookName;
 	   }
 
+	// 최소 도서 대출 조회
+	   public String getLeastBorrowBook() {
+		   String leastBorrowBook = dao.getLeastBorrowBook();
+		   return leastBorrowBook;
+	   }
 }
