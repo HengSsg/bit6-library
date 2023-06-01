@@ -181,7 +181,7 @@ public class Main {
 
         BookService bookService = new BookService();
 
-        if(input.equals("1")){
+        if (input.equals("1")) {
             // 도서명으로 검색
             System.out.println("제목을 입력해주세요 ");
             System.out.printf(" >> ");
@@ -217,7 +217,7 @@ public class Main {
                 System.out.println(partition);
             }
 
-        } else if(input.equals("3")) {
+        } else if (input.equals("3")) {
             // 출판사 명으로 검색
             System.out.print("출판사를 입력해주세요 ");
             System.out.printf(" >> ");
@@ -235,16 +235,14 @@ public class Main {
                 System.out.println(partition);
             }
 
-        } else if(input.equals("4")) {
+        } else if (input.equals("4")) {
 
             System.out.println(partition);
 
             String mostBorrowedBook = bookService.getMostBorrowedBookName();
 
             System.out.println("최다 대출 도서는 " + mostBorrowedBook + " 입니다.");
-        }
-
-        else {
+        } else {
             this.checkBookView();
         }
 
@@ -300,14 +298,67 @@ public class Main {
         System.out.println(selectMenu);
         System.out.println("1. 독후감 작성");
         System.out.println("2. 내가 쓴 독후감 보기");
+        if (user.getComunity_YN().equals("1")) {
+            System.out.println("3. 커뮤니티 탈퇴");
+
+        } else {
+            System.out.println("3. 커뮤니티 가입");
+        }
+        System.out.println("4. 처음으로");
         System.out.printf(">>");
         String input = scanner.nextLine(); //
         if ("1".equals(input)) {
             reportService.findByUserNo(user.getNo());
         } else if ("2".equals(input)) {
             reportService.reportByUserNo(user.getNo());
+        } else if ("3".equals(input)) {
+            if (user.getComunity_YN().equals("1")) {
+                System.out.println(partition);
+                System.out.println("정말 탈퇴 하시겠습니까?");
+                System.out.println("1. 예");
+                System.out.println("2. 아니요");
+                System.out.println(partition);
+                input = scanner.nextLine();
+
+                if ("1".equals(input)) {
+                    boolean result =
+                            userService.communityN(user.getName());
+                    if(result) {
+                        user.setComunity_YN("0");
+                        this.communityView();
+                    } else{
+                        System.out.println("가입 후 한달뒤에 탈퇴가 가능합니다.");
+                        System.out.println("탈퇴에 실패하였습니다.");
+                        this.communityView();
+                    }
+                } else {
+                    // 커뮤니티 페이지로 이동
+                    this.communityView();
+                }
+
+            } else {
+                System.out.println(partition);
+                System.out.println("정말 가입 하시겠습니까?");
+                System.out.println("1. 예");
+                System.out.println("2. 아니요");
+                System.out.println(partition);
+                input = scanner.nextLine();
+
+                if ("1".equals(input)) {
+                    userService.communityY(user.getName());
+                    user.setComunity_YN("1");
+                    this.communityView();
+                } else {
+                    // 커뮤니티 페이지로 이동
+                    this.communityView();
+                }
+            }
         } else {
-            this.goToHome();
+            if (user == null) {
+                this.mainNotLogined();
+            } else {
+                this.mainLogined();
+            }
         }
     }
 
