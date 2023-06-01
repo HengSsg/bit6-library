@@ -68,7 +68,7 @@ public class Rent_BookDAO {
         ArrayList<String> result = null;
 
         Connection con = ConnectionManager.getConnection();
-        String sql = "select CDT from rent_book where user_no =?";
+        String sql = "select * from rent_book where user_no =?";
         try {
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, user_num);
@@ -123,19 +123,37 @@ public class Rent_BookDAO {
         }
         return result;
     }
-    public List<BookDTO> RentBookUser(String bwriter) {
-        Connection conn = ConnectionManager.getConnection();
-
-        String sql = "SELECT * FROM book "
-                + "WHERE bwriter like ? ";
-
+    public List<BookDTO> RentBookUser(int user_num) {
+        Connection con = ConnectionManager.getConnection();
+        List<BookDTO> list = null;
+        String sql = new StringBuilder()
+                .append("select * from book a ")
+                .append("join rent_book b ")
+                .append("on a.no = b.book_no ")
+                .append("where b.user_no = ? and b.rentYN = 1").toString();
 
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        List<BookDTO> listBook = new ArrayList<>();
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, user_num);
+            ResultSet rs = pstmt.executeQuery();
+            list = new ArrayList<BookDTO>();
+            BookDTO item = new BookDTO();
 
 
-        return listBook;
+            while(rs.next()){
+                item.setNo(rs.getInt("no"));
+                item.setBname(rs.getString("bname"));
+                item.setBwriter(rs.getString("bwriter"));
+                item.setBpublisher(rs.getString("bpublisher"));
+                list.add(item);
+            }
+            pstmt.close();
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
      /*public void ex_pass_Deadline(Rent_BookDTO rent_book){
         boolean flag = false;

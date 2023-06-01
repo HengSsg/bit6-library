@@ -14,8 +14,11 @@ public class BookDAO {
 
 	public List<BookDTO> bookSelectTitle(String bname) {
 
-		String sql = "SELECT * FROM book "
-				+ "WHERE bname like ? ";
+		String sql = "SELECT  b.no, bname, bwriter, bpublisher, rb.rentYn "
+				+ "FROM book b "
+				+ "LEFT JOIN rent_book rb "
+				+ "ON b.no = rb.no "
+				+ "WHERE bname LIKE ?";
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -28,11 +31,22 @@ public class BookDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BookDTO b = new BookDTO();
+
 				b.setNo(rs.getInt("no"));
 				b.setBname(rs.getString("bname"));
 				b.setBwriter(rs.getString("bwriter"));
 				b.setBpublisher(rs.getString("bpublisher"));
-
+				
+	           int rentYn = rs.getInt("rentYn");
+	            
+	           if(rs.wasNull()) {
+	        	   b.setRentMsg("대출 가능");
+	           }else if(rentYn == 1) {
+	            	b.setRentMsg("대출중");
+	            }else {
+	            	b.setRentMsg("대출 가능");
+	            }
+	            
 				listBook.add(b);
 
 			}
@@ -59,7 +73,10 @@ public class BookDAO {
 	public List<BookDTO> bookSelectWriter(String bwriter) {
 		Connection conn = ConnectionManager.getConnection();
 
-		String sql = "SELECT * FROM book "
+		String sql = "SELECT b.no, bname, bwriter, bpublisher, rb.rentYn "
+				+ "FROM book b "
+				+ "LEFT JOIN rent_book rb "
+				+ "ON b.no = rb.no "
 				+ "WHERE bwriter like ? ";
 
 
@@ -74,11 +91,22 @@ public class BookDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BookDTO b = new BookDTO();
-
+				
+				b.setNo(rs.getInt("no"));
 				b.setBname(rs.getString("bname"));
 				b.setBwriter(rs.getString("bwriter"));
 				b.setBpublisher(rs.getString("bpublisher"));
 
+				int rentYn = rs.getInt("rentYn");
+	            
+		           if(rs.wasNull()) {
+		        	   b.setRentMsg("대출 가능");
+		           }else if(rentYn == 1) {
+		            	b.setRentMsg("대출중");
+		            }else {
+		            	b.setRentMsg("대출 가능");
+		            }
+		            
 				listBook.add(b);
 			}
 
@@ -99,12 +127,16 @@ public class BookDAO {
 		return listBook;
 	}
 
+
 	// 출판사로 조회
 	public List<BookDTO> bookSelectPublisher(String bpublisher) {
 		Connection conn = ConnectionManager.getConnection();
 
-		String sql = "SELECT * FROM book "
-				+ "WHERE bpublisher like ?";
+		String sql = "SELECT b.no, bname, bwriter, bpublisher, rb.rentYn "
+					+ "FROM book b "
+					+ "LEFT JOIN rent_book rb "
+					+ "ON b.no = rb.no "
+					+ "WHERE bpublisher like ?";
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -117,11 +149,22 @@ public class BookDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BookDTO b = new BookDTO();
-
+				
+				b.setNo(rs.getInt("no"));
 				b.setBname(rs.getString("bname"));
 				b.setBwriter(rs.getString("bwriter"));
 				b.setBpublisher(rs.getString("bpublisher"));
 
+				int rentYn = rs.getInt("rentYn");
+	            
+		           if(rs.wasNull()) {
+		        	   b.setRentMsg("대출 가능");
+		           }else if(rentYn == 1) {
+		            	b.setRentMsg("대출중");
+		            }else {
+		            	b.setRentMsg("대출 가능");
+		            }
+		           
 				listBook.add(b);
 			}
 
@@ -142,90 +185,45 @@ public class BookDAO {
 		return listBook;
 	}
 
-
-	//  도서의 상태를 확인
-	public String bookState() {
-		Connection conn = ConnectionManager.getConnection();
-
-		String result = "";
-		String sql = "SELECT count(*) from book b "
-				+ "JOIN rent_book rb "
-				+ "ON b.no = rb.no";
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				int count = rs.getInt(1);
-
-				if(count == 0) {
-					result = "대출가능";
-				} else {
-					result = "대출중";
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null || pstmt != null || conn != null) {
-				try {
-					rs.close();
-					pstmt.close();
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return result;
-	}
-
 	// 최다 도서 대출 조회
-	public String getMostBorrowedBookName() {
-		Connection conn = ConnectionManager.getConnection();
+    public String getMostBorrowedBookName() {
+        Connection conn = ConnectionManager.getConnection();
+        
+        String mostBorrowedBookName = "";
+        
+         String sql = "SELECT b.bname " +
+                  "FROM rent_book r " +
+                  "JOIN book b ON r.book_no = b.no " +
+                  "GROUP BY r.book_no " +
+                  "ORDER BY COUNT(*) DESC " +
+                  "LIMIT 1";
+         
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-		String mostBorrowedBookName = "";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
 
-		String sql = "SELECT b.bname " +
-				"FROM rent_book r " +
-				"JOIN book b ON r.book_no = b.no " +
-				"GROUP BY r.book_no " +
-				"ORDER BY COUNT(*) DESC " +
-				"LIMIT 1";
+            if (rs.next()) {
+                mostBorrowedBookName = rs.getString("bname");
+            }
 
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				mostBorrowedBookName = rs.getString("bname");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null || pstmt != null || conn != null) {
-				try {
-					rs.close();
-					pstmt.close();
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return mostBorrowedBookName;
-	}
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null || pstmt != null || conn != null) {
+                try {
+                    rs.close();
+                    pstmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        
+        }
+        
+         return mostBorrowedBookName;
+    }
 }

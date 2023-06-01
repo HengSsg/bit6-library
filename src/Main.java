@@ -98,7 +98,7 @@ public class Main {
         } else if ("2".equals(input)) {
             this.communityView();
         } else if ("3".equals(input)) {
-            this.RentBookView();
+            this.ReturnBookView();
         } else if ("4".equals(input)) {
             user = null;
             System.out.println("로그아웃 하였습니다!!");
@@ -117,7 +117,50 @@ public class Main {
         ReportService reportService = new ReportService();
         reportService.findByUserNo(user.getNo());
     }
+    public void ReturnBookView() {
+        System.out.println(partition);
+        Rent_BookService rentBookService = new Rent_BookService();
+        List<BookDTO> returnbookList = rentBookService.RentBookUser(user.getNo());
+        int i = 0;
+        for (BookDTO book : returnbookList) {
+            System.out.println(partition);
+            System.out.println("책번호: "+ ++i);
+            System.out.println("책이름: " + book.getBname());
+            System.out.println("저자: " + book.getBwriter());
+            System.out.println("출판사: " + book.getBpublisher());
+            System.out.println(partition);
+        }
+        if(returnbookList.size()>0) {
+            System.out.println("반납할 책 번호 입력");
+            System.out.println(">> ");
+            String input = scanner.nextLine();
 
+            BookDTO book = (BookDTO) returnbookList.get(Integer.parseInt(input) - 1);
+            String bname = book.getBname();
+            System.out.println(bname + " 책을 반납하시겠습니까?");
+            System.out.println("1. 반납하기");
+            System.out.println("2. 나가기");
+            System.out.print(">> ");
+
+            input = scanner.nextLine();
+
+            if ("1".equals(input)) {
+                Rent_BookService rent_bookService = new Rent_BookService();
+                if (rent_bookService.Return_Book(book.getNo())) {
+                    System.out.println(bname + "정상 데이터 베이스 반영");
+                    this.mainLogined();
+                }
+            } else if ("2".equals(input)) {
+                this.mainLogined();
+            } else {
+                this.ReturnBookView();
+            }
+        }else{
+            System.out.println("반납할 책이 없습니다.");
+            this.mainLogined();
+        }
+
+    }
     public void checkBookView() { // 도서 조회
 
         System.out.println(partition);
@@ -130,60 +173,84 @@ public class Main {
         System.out.println(partition);
         System.out.printf(">>");
 
-        System.out.print(">>");
-        String input = scanner.nextLine();
+       System.out.print(">>");
 
-        BookService bookService = new BookService();
-        if ("1".equals(input)) {
-            // 도서명으로 검색
-            System.out.println("제목을 입력해주세요 ");
-            System.out.print(" >> ");
-            String bname = scanner.nextLine();
+       String input = scanner.nextLine();
 
-            List<BookDTO> bookList = bookService.bookSelectTitle(bname);
-            int i = 0;
+       BookService bookService = new BookService();
+
+       if(input.equals("1")){
+           // 도서명으로 검색
+          System.out.println("제목을 입력해주세요 ");
+           System.out.printf(" >> ");
+          String bname = scanner.nextLine();
+
+           List<BookDTO> bookList = bookService.bookSelectTitle(bname);
+                      
+           for (BookDTO book : bookList) {
+  
+               System.out.println(partition);
+               System.out.println("책이름: " + book.getBname());
+               System.out.println("저자: " + book.getBwriter());
+               System.out.println("출판사: " + book.getBpublisher());
+               System.out.println("상태 : " + book.getRentMsg());
+               System.out.println(partition);
+           }
+          
+       } else if (input.equals("2")) {
+           // 저자 명으로 검색
+          System.out.print("저자를 입력해주세요 ");
+           System.out.printf(" >> ");
+          String bwriter = scanner.nextLine();
+          
+           List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
+           
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
+     
                 System.out.println(partition);
-                System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
+                System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
-            if (user != null) {
-                this.rentbookview(bookList);
-            }
-        } else if (input.equals("2")) {
-            // 저자 명으로 검색
-            System.out.print("저자를 입력해주세요 ");
-            System.out.printf(">> ");
-            String bwriter = scanner.nextLine();
+          
+       } else if(input.equals("3")) {
+           // 출판사 명으로 검색
+          System.out.print("출판사를 입력해주세요 ");
+           System.out.printf(" >> ");
+          String bpublisher = scanner.nextLine();
+          
+          List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
 
-            List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
+           for (BookDTO book : bookList) {
+      
+               System.out.println(partition);
+               System.out.println("책이름: " + book.getBname());
+               System.out.println("저자: " + book.getBwriter());
+               System.out.println("출판사: " + book.getBpublisher());
+               System.out.println("상태 : " + book.getRentMsg());
+               System.out.println(partition);
+           }
+          
+       } else if(input.equals("4")) {
+          
+           System.out.println(partition);
+           
+           String mostBorrowedBook = bookService.getMostBorrowedBookName();
 
-            System.out.println(bookList);
-            int i = 0;
-            for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
-                System.out.println(partition);
-                System.out.println("책번호: " + ++i);
-                System.out.println("책이름: " + book.getBname());
-                System.out.println("저자: " + book.getBwriter());
-                System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
-                System.out.println(partition);
-            }
-            if (user != null) {
-                this.rentbookview(bookList);
-            }
+           System.out.println("최다 대출 도서는 " + mostBorrowedBook + " 입니다.");
+       }
+       
+       else {
+           this.checkBookView();
+       }
 
-        } else if (input.equals("3")) {
-            // 출판사 명으로 검색
-            System.out.print("출판사를 입력해주세요 ");
-            System.out.printf(" >> ");
-            String bpublisher = scanner.nextLine();
+       if (user != null) {
+           this.goToHome();
+       } else {
+           this.mainNotLogined();
+       }
 
             List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
             int i = 0;
@@ -236,14 +303,20 @@ public class Main {
         System.out.println("1. 대출하기");
         System.out.println("2. 나가기");
         System.out.print(">>");
-        System.out.println(book.getNo() + "+" + user.getNo());
+
         input = scanner.nextLine();
         if ("1".equals(input)) {
             Rent_BookService rent_bookService = new Rent_BookService();
-            if (rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
-                System.out.println(bname + "정상 데이터 베이스 삽입");
+            if(rent_bookService.IsPass_DeadLine(user.getNo())) {
+
                 this.mainLogined();
+            }else{
+                if (rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
+                    System.out.println(bname + "정상 데이터 베이스 삽입");
+                    this.mainLogined();
+                }
             }
+
         } else if ("2".equals(input)) {
             this.mainLogined();
         } else {
