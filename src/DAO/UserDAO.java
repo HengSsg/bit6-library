@@ -24,7 +24,7 @@ public class UserDAO {
                 // DB의 내용을 로컬데이터셋으로 저장하는 것이 주 목적
 
 
-                user = new UserDTO(rs.getInt(1) ,rs.getString(2), rs.getString(3),
+                user = new UserDTO(rs.getInt(1), rs.getString(2), rs.getString(3),
                         rs.getString(4), rs.getString(5), rs.getString(6),
                         rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10));
             }
@@ -51,5 +51,26 @@ public class UserDAO {
 
         con.close();
         pstmt.close();
+    }
+
+    public void updateCommunity(String username) {
+        Connection con = ConnectionManager.getConnection();
+        String sql = "update user\n" +
+                "set comuntYn = 0\n" +
+                "where cdt <= date_sub(now(), interval 1 month) and name=?;";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                System.out.println(rs);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
