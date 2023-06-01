@@ -32,5 +32,16 @@ public class BookService {
 
 		return bookList;
 	}
+	
+	// 해당 도서의 상태를 조회
+	public String bookState() {
+		 String bookStatus = dao.bookState();
+		    
+	    if (bookStatus.equals("대출가능")) {
+	        return "대출가능";
+	    } else {
+	        return "대출중";
+	    }
+	}
     	
 }

@@ -92,5 +92,6 @@ public class BookDTO {
 		return "BookDTO [no=" + no + ", bname=" + bname + ", bwriter=" + bwriter + ", bpublisher=" + bpublisher
 				+ ", bgrade=" + bgrade + ", CDT=" + CDT + ", display=" + display + "]";
 	}
+
 	
 }

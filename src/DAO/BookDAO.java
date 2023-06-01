@@ -15,7 +15,7 @@ public class BookDAO {
 		public List<BookDTO> bookSelectTitle(String bname) {
 
 			String sql = "SELECT * FROM book "
-				     + "WHERE bname = ? ";
+				     + "WHERE bname like ? ";
 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -23,7 +23,7 @@ public class BookDAO {
 
 			try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, bname );
+				pstmt.setString(1, "%" + bname + "%");
 
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
@@ -60,7 +60,8 @@ public class BookDAO {
 			Connection conn = ConnectionManager.getConnection();
 
 			String sql = "SELECT * FROM book "
-					     + "WHERE bwriter = ? ";
+					     + "WHERE bwriter like ? ";
+		
 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -68,7 +69,7 @@ public class BookDAO {
 
 			try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, bwriter);
+				pstmt.setString(1, "%" + bwriter + "%");
 
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
@@ -103,7 +104,7 @@ public class BookDAO {
 			Connection conn = ConnectionManager.getConnection();
 
 			String sql = "SELECT * FROM book "
-					     + "WHERE bpublisher = ?";
+					     + "WHERE bpublisher like ?";
 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -111,7 +112,7 @@ public class BookDAO {
 
 			try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, bpublisher);
+				pstmt.setString(1, "%" + bpublisher + "%");
 
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
@@ -140,5 +141,48 @@ public class BookDAO {
 
 			return listBook;
 		}
+		
+		
+		//  도서의 상태를 확인
+		public String bookState() {
+			Connection conn = ConnectionManager.getConnection();
 
+			String result = "";
+			String sql = "SELECT count(*) from book b "
+						+ "JOIN rent_book rb "
+						+ "ON b.no = rb.no";
+			
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+		        pstmt = conn.prepareStatement(sql);
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            int count = rs.getInt(1);
+		          
+		            if(count == 0) {
+		            	result = "대출가능";
+		            } else {
+		            	result = "대출중";
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        if (rs != null || pstmt != null || conn != null) {
+		            try {
+		                rs.close();
+		                pstmt.close();
+		                conn.close();
+		            } catch (SQLException e) {
+		                e.printStackTrace();
+		            }
+		        }
+		    }
+
+		    return result;
+		}
 }

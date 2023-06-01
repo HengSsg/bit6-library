@@ -100,10 +100,13 @@ public class Main {
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);
                        
             for (BookDTO book : bookList) {
+             	String bookState = bookService.bookState();
                 System.out.println(partition);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
+                System.out.println("상태 : " + bookState);
+                System.out.println(partition);
             }
         	
         } else if (input.equals("2")) {
@@ -117,10 +120,13 @@ public class Main {
              System.out.println(bookList);
              
              for (BookDTO book : bookList) {
+             	String bookState = bookService.bookState();
                  System.out.println(partition);
                  System.out.println("책이름: " + book.getBname());
                  System.out.println("저자: " + book.getBwriter());
                  System.out.println("출판사: " + book.getBpublisher());
+                 System.out.println("상태 : " + bookState);
+                 System.out.println(partition);
              }
         	
         } else if(input.equals("3")) {
@@ -132,10 +138,13 @@ public class Main {
         	List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
 
             for (BookDTO book : bookList) {
+            	String bookState = bookService.bookState();
                 System.out.println(partition);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
+                System.out.println("상태 : " + bookState);
+                System.out.println(partition);
             }
         	
         } else {
