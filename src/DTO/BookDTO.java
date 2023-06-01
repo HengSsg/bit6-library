@@ -28,7 +28,6 @@ public class BookDTO {
 		this.bname = bname;
 		this.bwriter = bwriter;
 		this.bpublisher = bpublisher;
-
 	}
 
 	public int getNo() {
