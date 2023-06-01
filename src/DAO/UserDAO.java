@@ -53,7 +53,8 @@ public class UserDAO {
         pstmt.close();
     }
 
-    public void updateCommunity(String username) {
+    public boolean quitCommunity(String username) { // 커뮤니티 탈퇴하기
+        boolean flag = false;
         Connection con = ConnectionManager.getConnection();
         String sql = "update user\n" +
                 "set comuntYn = 0\n" +
@@ -61,16 +62,42 @@ public class UserDAO {
         try {
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()){
-                System.out.println(rs);
+            int result = pstmt.executeUpdate();
+            if (result != 0) {
+                flag = true;
             }
-
+            con.close();
+            pstmt.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
+        return flag;
+    }
+
+    public boolean joinCommunity(String username) { // 커뮤니티 탈퇴하기
+        boolean flag = false;
+        Connection con = ConnectionManager.getConnection();
+        String sql = "update user\n" +
+                "set comuntYn = 1\n" +
+                "where name=?;";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, username);
+            int result = pstmt.executeUpdate();
+            if (result != 0) {
+                flag = true;
+            }
+            con.close();
+            pstmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return flag;
     }
 }
