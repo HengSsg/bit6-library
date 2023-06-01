@@ -28,7 +28,7 @@ public class BookDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BookDTO b = new BookDTO();
-
+				b.setNo(rs.getInt("no"));
 				b.setBname(rs.getString("bname"));
 				b.setBwriter(rs.getString("bwriter"));
 				b.setBpublisher(rs.getString("bpublisher"));
