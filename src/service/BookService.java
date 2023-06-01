@@ -43,5 +43,11 @@ public class BookService {
 	        return "대출중";
 	    }
 	}
+	
+	// 최다 도서 대출 조회
+	public String getMostBorrowedBookName() {
+	    String mostBorrowedBookName = dao.getMostBorrowedBookName();
+	    return mostBorrowedBookName;
+	}
     	
 }

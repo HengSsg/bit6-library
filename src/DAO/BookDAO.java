@@ -14,7 +14,7 @@ public class BookDAO {
 	
 		public List<BookDTO> bookSelectTitle(String bname) {
 
-			String sql = "SELECT * FROM book "
+			String sql = "SELECT bname, bwriter, bpublisher FROM book "
 				     + "WHERE bname like ? ";
 
 			PreparedStatement pstmt = null;
@@ -59,7 +59,7 @@ public class BookDAO {
 		public List<BookDTO> bookSelectWriter(String bwriter) {
 			Connection conn = ConnectionManager.getConnection();
 
-			String sql = "SELECT * FROM book "
+			String sql = "SELECT bname, bwriter, bpublisher FROM book "
 					     + "WHERE bwriter like ? ";
 		
 
@@ -103,7 +103,7 @@ public class BookDAO {
 		public List<BookDTO> bookSelectPublisher(String bpublisher) {
 			Connection conn = ConnectionManager.getConnection();
 
-			String sql = "SELECT * FROM book "
+			String sql = "SELECT bname, bwriter, bpublisher FROM book "
 					     + "WHERE bpublisher like ?";
 
 			PreparedStatement pstmt = null;
@@ -184,5 +184,47 @@ public class BookDAO {
 		    }
 
 		    return result;
+		}
+		
+		// 최다 도서 대출 조회
+		public String getMostBorrowedBookName() {
+		    Connection conn = ConnectionManager.getConnection();
+		    
+		    String mostBorrowedBookName = "";
+		    
+	        String sql = "SELECT b.bname " +
+                    "FROM rent_book r " +
+                    "JOIN book b ON r.book_no = b.no " +
+                    "GROUP BY r.book_no " +
+                    "ORDER BY COUNT(*) DESC " +
+                    "LIMIT 1";
+	        
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+
+		    try {
+		        pstmt = conn.prepareStatement(sql);
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            mostBorrowedBookName = rs.getString("bname");
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        if (rs != null || pstmt != null || conn != null) {
+		            try {
+		                rs.close();
+		                pstmt.close();
+		                conn.close();
+		            } catch (SQLException e) {
+		                e.printStackTrace();
+		            }
+		        }
+		    
+		    }
+		    
+	        return mostBorrowedBookName;
 		}
 }

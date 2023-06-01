@@ -87,6 +87,7 @@ public class Main {
         System.out.println("1. 도서 명");
         System.out.println("2. 저자 명");
         System.out.println("3. 출판사 명");
+        System.out.println("4. 최다 대출 도서 확인");
         System.out.printf(">>");
         
         String input = scanner.nextLine();
@@ -147,7 +148,16 @@ public class Main {
                 System.out.println(partition);
             }
         	
-        } else {
+        } else if(input.equals("4")) {
+        	
+            System.out.println(partition);
+            
+            String mostBorrowedBook = bookService.getMostBorrowedBookName();
+
+            System.out.println("최다 대출 도서는 " + mostBorrowedBook + "입니다.");
+        }
+        
+        else {
             this.checkBookView();
         }
         
@@ -184,6 +194,5 @@ public class Main {
 
         }
     }
-
-
+    
 }
