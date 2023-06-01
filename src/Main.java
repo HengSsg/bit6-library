@@ -243,18 +243,17 @@ public class Main {
 
 
     public void communityView () { // 커뮤니티 눌렀을때
+        ReportService reportService = new ReportService();
         System.out.println(partition);
         System.out.println(selectMenu);
         System.out.println("1. 독후감 작성");
         System.out.println("2. 내가 쓴 독후감 보기");
         System.out.printf(">>");
         String input = scanner.nextLine(); //
-
         if ("1".equals(input)) {
-            ReportService reportService = new ReportService();
             reportService.findByUserNo(user.getNo());
         } else if ("2".equals(input)) {
-
+            reportService.reportByUserNo(user.getNo());
         } else {
             this.goToHome();
         }

@@ -42,6 +42,7 @@ public class ReportService {
         }
     }
 
+    //유저가 대출한 도서 목록 조회
     public List<ReportDTO> findByUserNo(int userNo){
         String sql = "select b.bname, rb.book_no, rb.user_no from rent_book rb " +
                 "JOIN book b ON rb.book_no = b.no where user_no = ?";
@@ -66,6 +67,28 @@ public class ReportService {
             }
         }else{
             this.findByUserNo(userNo);
+        }
+
+        return list;
+    }
+
+    //유저가 작성한 독후감 조회
+    public List<ReportDTO> reportByUserNo(int userNo){
+        String sql = "select * from report " +
+                "where user_no = ?";
+        List<ReportDTO> list = dao.reportByUserNo(sql, userNo);
+        int cnt = list.size();
+        System.out.println("=============================================");
+        System.out.println("조회할 독후감을 선택해주세요.");
+        System.out.println(">>");
+        int menuNum = Integer.parseInt(scanner.nextLine());
+        if(menuNum <= cnt){
+            System.out.println("=============================================");
+            System.out.println("독후감 제목: " + list.get(menuNum-1).getTitle());
+            System.out.println("독후감 내용: " + list.get(menuNum-1).getContents());
+            System.out.println("작성일자: " + list.get(menuNum-1).getCDT());
+        }else{
+            this.reportByUserNo(userNo);
         }
 
         return list;
