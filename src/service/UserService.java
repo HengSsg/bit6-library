@@ -10,7 +10,7 @@ public class UserService {
     UserDAO userDAO = new UserDAO();
 
 
-    public UserDTO login(String id, String pw) throws SQLException {
+    public UserDTO login(String id, String pw) { // 사용자 로그인
         UserDTO user = null;
 
         user = userDAO.selectUser(id);
@@ -23,7 +23,7 @@ public class UserService {
         }
     }
 
-    public boolean upgradeAuth(String grade, String username) {
+    public boolean upgradeAuth(String grade, String username) { // 사용자 등급 조정
         boolean flag = false;
 
         try {
