@@ -26,7 +26,7 @@ public class Main {
     }
 
 
-    public void mainNotLogined() throws SQLException { // 첫 화면
+    public void mainNotLogined() { // 첫 화면
         System.out.println(partition);
         System.out.println("환영합니다 도서 관리 시스템에 오신것을 환영합니다!!");
         System.out.println(selectMenu);
@@ -36,13 +36,18 @@ public class Main {
         System.out.printf(">>");
         String input = scanner.nextLine();
 
-        if (input.equals("1")) {
-            this.checkBookView();
-        } else if (input.equals("2")) {
-            this.loginView();
-        } else {
-            this.mainNotLogined();
+        try {
+            if (input.equals("1")) {
+                this.checkBookView();
+            } else if (input.equals("2")) {
+                this.loginView();
+            } else {
+                this.mainNotLogined();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
     }
 
     public void loginView() throws SQLException {
@@ -67,7 +72,7 @@ public class Main {
 
     }
 
-    public void mainLogined() throws SQLException { // 로그인 했을때 메인 화면
+    public void mainLogined() { // 로그인 했을때 메인 화면
         // 1. 도서 조회 => checkBook()
         // 2. 커뮤니티
         // 3. 로그아웃??
@@ -103,7 +108,7 @@ public class Main {
         reportService.insertReport();
     }
 
-    public void checkBookView() throws SQLException { // 도서 조회
+    public void checkBookView()  { // 도서 조회
 
         // System.out.println(partition);
         System.out.println("조회할 항목을 선택해주세요");
@@ -185,9 +190,10 @@ public class Main {
 
     public void communityView() { // 커뮤니티 눌렀을때
 
+
     }
 
-    public void goToHome() throws SQLException {
+    public void goToHome() {
         System.out.println("1. 예약하기");
         System.out.println("2. 대출하기");
         System.out.println("3. 처음으로");

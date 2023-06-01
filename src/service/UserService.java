@@ -26,6 +26,29 @@ public class UserService {
     public boolean upgradeAuth(String grade, String username) { // 사용자 등급 조정
         boolean flag = false;
 
+        String[] gradeArr = grade.split("0");
+        gradeArr[1] = String.valueOf(Integer.parseInt(gradeArr[1]) + 1);
+        gradeArr[1] = "0" + gradeArr[1];
+        grade = String.join("", gradeArr);
+
+        try {
+            userDAO.updateAuth(grade, username);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return flag;
+    }
+
+    public boolean downgradeAuth(String grade, String username) { // 사용자 등급 조정
+        boolean flag = false;
+
+        String[] gradeArr = grade.split("0");
+        gradeArr[1] = String.valueOf(Integer.parseInt(gradeArr[1]) - 1);
+        gradeArr[1] = "0" + gradeArr[1];
+        grade = String.join("", gradeArr);
+
         try {
             userDAO.updateAuth(grade, username);
             flag = true;
