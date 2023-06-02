@@ -207,7 +207,11 @@ public class Main {
                 System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
-            this.rentbookview(bookList);
+            if(user == null) {
+                this.checkBookView();
+            }else {
+                this.rentbookview(bookList);
+            }
 
         } else if (input.equals("2")) {
             // 저자 명으로 검색
@@ -230,7 +234,11 @@ public class Main {
                 System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
-            this.rentbookview(bookList);
+            if(user == null) {
+                this.checkBookView();
+            }else {
+                this.rentbookview(bookList);
+            }
 
         } else if (input.equals("3")) {
             // 출판사 명으로 검색
@@ -253,7 +261,11 @@ public class Main {
                 System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
-            this.rentbookview(bookList);
+            if(user == null) {
+                this.checkBookView();
+            }else {
+                this.rentbookview(bookList);
+            }
 
         } else if (input.equals("4")) {
 
@@ -263,6 +275,8 @@ public class Main {
 
             System.out.println("최다 대출 도서는 " + mostBorrowedBook + " 입니다.");
 
+            this.checkBookView();
+
         } else if (input.equals("5")) {
 
             System.out.println(partition);
@@ -270,6 +284,8 @@ public class Main {
             String leastBorrowBook = bookService.getLeastBorrowBook();
 
             System.out.println("최소 대출 도서는 " + leastBorrowBook + " 입니다.");
+
+            this.checkBookView();
         } else if ("6".equals(input)) {
             if(user == null) {
                 this.mainNotLogined();
@@ -289,9 +305,7 @@ public class Main {
     }
 
 
-    public void returnBook() {
-
-    }
+    
 
     public void rentbookview(List bookList) {
         System.out.println("대출할 책 번호를 입력해주세요");
@@ -427,66 +441,68 @@ public class Main {
         }
     }
 
-    public void RentBookView() {
-        System.out.println(partition);
-        System.out.println("반납할 책 이름을 입력해주세요");
-        System.out.println(">>");
-    }
+//    public void RentBookView() {
+//        System.out.println(partition);
+//        System.out.println("반납할 책 이름을 입력해주세요");
+//        System.out.println(">>");
+//    }
 
-    public void goToHome() {
-        System.out.println("1. 예약하기");
-        System.out.println("2. 대출하기");
-        System.out.println("3. 처음으로");
-        System.out.printf(">>");
-        String input = scanner.nextLine();
+//    public void goToHome() {
+//        System.out.println("1. 예약하기");
+//        System.out.println("2. 대출하기");
+//        System.out.println("3. 처음으로");
+//        System.out.printf(">>");
+//        String input = scanner.nextLine();
+//
+//        if (input.equals("1")) {
+//            System.out.println("정말 예약 하시겠습니까?");
+//            System.out.println("1. 예");
+//            System.out.println("2. 아니요");
+//            System.out.printf(">>");
+//            input = scanner.nextLine();
+//
+//            if (input.equals("1")) {
+//                // 책 예약 로직 추가해야 함
+//                System.out.println("예약이 완료 되었습니다.");
+//                if (user == null) {
+//                    this.mainNotLogined();
+//                } else {
+//                    this.mainLogined();
+//                }
+//
+//            } else {
+//                this.goToHome();
+//            }
+//
+//        } else if (input.equals("2")) {
+//            System.out.println("정말 대출 하시겠습니까?");
+//            System.out.println("1. 예");
+//            System.out.println("2. 아니요");
+//            System.out.printf(">>");
+//            input = scanner.nextLine();
+//
+//            if (input.equals("1")) {
+//                // 책 예약 로직 추가해야 함
+//                System.out.println("대출이 완료 되었습니다.");
+//                if (user == null) {
+//                    this.mainNotLogined();
+//                } else {
+//                    this.mainLogined();
+//                }
+//
+//            } else {
+//                this.goToHome();
+//            }
+//        } else {
+//            if (user == null) {
+//                this.mainNotLogined();
+//            } else {
+//                this.mainLogined();
+//            }
+//        }
+//    }
 
-        if (input.equals("1")) {
-            System.out.println("정말 예약 하시겠습니까?");
-            System.out.println("1. 예");
-            System.out.println("2. 아니요");
-            System.out.printf(">>");
-            input = scanner.nextLine();
 
-            if (input.equals("1")) {
-                // 책 예약 로직 추가해야 함
-                System.out.println("예약이 완료 되었습니다.");
-                if (user == null) {
-                    this.mainNotLogined();
-                } else {
-                    this.mainLogined();
-                }
-
-            } else {
-                this.goToHome();
-            }
-
-        } else if (input.equals("2")) {
-            System.out.println("정말 대출 하시겠습니까?");
-            System.out.println("1. 예");
-            System.out.println("2. 아니요");
-            System.out.printf(">>");
-            input = scanner.nextLine();
-
-            if (input.equals("1")) {
-                // 책 예약 로직 추가해야 함
-                System.out.println("대출이 완료 되었습니다.");
-                if (user == null) {
-                    this.mainNotLogined();
-                } else {
-                    this.mainLogined();
-                }
-
-            } else {
-                this.goToHome();
-            }
-        } else {
-            if (user == null) {
-                this.mainNotLogined();
-            } else {
-                this.mainLogined();
-            }
-        }
-    }
 
     public void close() {
         System.out.println(partition);
