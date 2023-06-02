@@ -188,10 +188,11 @@ public class Main {
             String bname = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);
-
+            int i = 0;
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
+                System.out.println("번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
@@ -207,10 +208,11 @@ public class Main {
             String bwriter = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
-
+            int i = 0;
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
+                System.out.println("번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
@@ -226,10 +228,11 @@ public class Main {
             String bpublisher = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
-
+            int i = 0;
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
+                System.out.println("번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
