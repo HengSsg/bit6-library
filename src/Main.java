@@ -17,6 +17,7 @@ public class Main {
     UserDTO user = null;
 
     UserService userService = new UserService();
+    Rent_BookService rentBookService = new Rent_BookService();
 
 
     public static void main(String[] args) {
@@ -122,7 +123,6 @@ public class Main {
 
     public void ReturnBookView() {
         System.out.println(partition);
-        Rent_BookService rentBookService = new Rent_BookService();
         List<BookDTO> returnbookList = rentBookService.RentBookUser(user.getNo());
         int i = 0;
         for (BookDTO book : returnbookList) {
@@ -200,7 +200,6 @@ public class Main {
             }
             int i = 0;
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
                 System.out.println("번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
@@ -224,7 +223,6 @@ public class Main {
             }
             int i = 0;
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
                 System.out.println("번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
@@ -248,7 +246,6 @@ public class Main {
             }
             int i = 0;
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
                 System.out.println("번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
@@ -342,22 +339,42 @@ public class Main {
         ReportService reportService = new ReportService();
         System.out.println(partition);
         System.out.println(selectMenu);
-        System.out.println("1. 독후감 작성");
-        System.out.println("2. 내가 쓴 독후감 보기");
-        if (user.getComunity_YN().equals("1")) {
-            System.out.println("3. 커뮤니티 탈퇴");
+        int i = 1;
+        String[] menu = {"독후감 작성", "내가 쓴 독후감 보기", "커뮤니티 탈퇴", "커뮤니티 가입", "처음으로"};
 
-        } else {
-            System.out.println("3. 커뮤니티 가입");
+        if("1".equals(user.getComunity_YN())) {
+            System.out.println(i++ +". 독후감 작성");
         }
-        System.out.println("4. 처음으로");
+        System.out.println(i++ +". 내가 쓴 독후감 보기");
+        if (user.getComunity_YN().equals("1")) {
+            System.out.println(i++ +". 커뮤니티 탈퇴");
+        } else {
+            System.out.println(i++ +". 커뮤니티 가입");
+        }
+        System.out.println(i +". 처음으로");
         System.out.printf(">>");
         String input = scanner.nextLine(); //
-        if ("1".equals(input)) {
+        if (menu[0].equals(menu[Integer.parseInt(input)-1])) {
+            //독후감 작성
             reportService.findByUserNo(user.getNo());
-        } else if ("2".equals(input)) {
+            System.out.println(selectMenu);
+            System.out.println("1. 처음으로");
+            System.out.printf(">>");
+            String menuNum = scanner.nextLine();
+            if(menuNum != null){
+                this.communityView();
+            }
+        } else if (menu[1].equals(menu[Integer.parseInt(input)-1])) {
+            //내가쓴독후감보기
             reportService.reportByUserNo(user.getNo());
-        } else if ("3".equals(input)) {
+            System.out.println(selectMenu);
+            System.out.println("1. 처음으로");
+            System.out.printf(">>");
+            String menuNum = scanner.nextLine();
+            if(menuNum != null){
+                this.communityView();
+            }
+        } else if (menu[2].equals(menu[Integer.parseInt(input)-1])) {
             if (user.getComunity_YN().equals("1")) {
                 System.out.println(partition);
                 System.out.println("정말 탈퇴 하시겠습니까?");
