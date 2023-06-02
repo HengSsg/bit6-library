@@ -358,7 +358,7 @@ public class Main {
         String input = scanner.nextLine(); //
         if (menu[0].equals(menu[Integer.parseInt(input)-1])) {
             //독후감 작성
-            reportService.findByUserNo(user.getNo());
+            reportService.findByUserNo(user.getNo(), user.getAUTH_code());
             System.out.println(selectMenu);
             System.out.println("1. 처음으로");
             System.out.printf(">>");

@@ -2,7 +2,6 @@ package service;
 
 import DAO.ReportDAO;
 import DTO.ReportDTO;
-import com.sun.tools.javac.Main;
 
 import java.util.List;
 import java.util.Scanner;
@@ -46,7 +45,7 @@ public class ReportService {
     }
 
     //유저가 대출한 도서 목록 조회
-    public List<ReportDTO> findByUserNo(int userNo, String grade){
+    public void findByUserNo(int userNo, String grade){
         String sql = "select b.bname, rb.book_no, rb.user_no from rent_book rb " +
                 "JOIN book b ON rb.book_no = b.no where user_no = ?";
         List<ReportDTO> list = dao.findByUserNo(sql, userNo);
@@ -69,7 +68,7 @@ public class ReportService {
             } else if ("2".equals(menuNum2)) {
 
                 } else {
-                    this.findByUserNo(userNo);
+                    this.findByUserNo(userNo, grade);
                 }
             } else {
                 this.findByUserNo(userNo, grade);
