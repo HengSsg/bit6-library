@@ -333,7 +333,7 @@ public class Main {
                     this.mainLogined();
                 }
                 else if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
-                    System.out.println(bname + "정상 데이터 베이스 삽입");
+                    System.out.println(bname + " 대여완료.");
                     // 서비스 삽입
                     user = userService.login(user.getID(), user.getPW());
                     userService.upgradeAuth(user.getAUTH_code());

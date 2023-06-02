@@ -68,21 +68,21 @@ public class ReportDAO {
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, no);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                while (rs.next()) {
-                    ReportDTO reportDTO = new ReportDTO();
-                    reportDTO.setTitle(rs.getString("title"));
-                    reportDTO.setUser_no(rs.getInt("user_no"));
-                    reportDTO.setBook_no(rs.getInt("book_no"));
-                    reportDTO.setContents(rs.getString("contents"));
-                    reportDTO.setCDT(rs.getString("cdt"));
-                    System.out.println("=============================================");
-                    System.out.println("독후감 번호: " + i);
-                    System.out.println("독후감 제목: " + reportDTO.getTitle());
-                    i++;
-                    list.add(reportDTO);
-                }
+
+            while (rs.next()) {
+                ReportDTO reportDTO = new ReportDTO();
+                reportDTO.setTitle(rs.getString("title"));
+                reportDTO.setUser_no(rs.getInt("user_no"));
+                reportDTO.setBook_no(rs.getInt("book_no"));
+                reportDTO.setContents(rs.getString("contents"));
+                reportDTO.setCDT(rs.getString("cdt"));
+                System.out.println("=============================================");
+                System.out.println("독후감 번호: " + i);
+                System.out.println("독후감 제목: " + reportDTO.getTitle());
+                i++;
+                list.add(reportDTO);
             }
+
             rs.close();
             pstmt.close();
         } catch (Exception e) {
