@@ -196,9 +196,10 @@ public class Main {
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + book.getRentMsg());
+                System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
+            this.rentbookview(bookList);
 
         } else if (input.equals("2")) {
             // 저자 명으로 검색
@@ -214,9 +215,10 @@ public class Main {
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + book.getRentMsg());
+                System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
+            this.rentbookview(bookList);
 
         } else if (input.equals("3")) {
             // 출판사 명으로 검색
@@ -232,9 +234,10 @@ public class Main {
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + book.getRentMsg());
+                System.out.println("상태 : " + bookState);
                 System.out.println(partition);
             }
+            this.rentbookview(bookList);
 
         } else if (input.equals("4")) {
 
