@@ -45,6 +45,10 @@ public class Rent_BookService {
 
         return bookStatus;
     }
+    public int fullMaxRent(int user_pk){
+        Rent_BookDAO dao = new Rent_BookDAO();
+        return dao.fullMaxRent(user_pk);
+    }
     public boolean IsPass_DeadLine(int user_num){//대출 시 데드라인이 넘었는지 확인함
         boolean flag = false;
 

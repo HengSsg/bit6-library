@@ -293,7 +293,13 @@ public class Main {
             if(rent_bookService.IsPass_DeadLine(user.getNo())) {
                 this.mainLogined();
             }else{
-                if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
+                int rentBookUser_num = rent_bookService.RentBookUser(user.getNo()).size();
+                //System.out.println(rentBookUser_num);
+                if(rent_bookService.fullMaxRent(user.getNo())<=rentBookUser_num) {
+                    System.out.println("대출 가능 갯수를 넘었습니다");
+                    this.mainLogined();
+                }
+                else if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
                     System.out.println(bname + "정상 데이터 베이스 삽입");
                     this.mainLogined();
                 }else{

@@ -155,6 +155,31 @@ public class Rent_BookDAO {
         }
         return list;
     }
+    public int fullMaxRent(int user_pk){
+        int MaxRent = 0;
+        Connection con = ConnectionManager.getConnection();
+        String sql = new StringBuilder()
+                .append("select a.max_rent ")
+                .append("from auth a join user b ")
+                .append("on a.code = b.auth_code ")
+                .append("join rent_book c ")
+                .append("on  b.no = c.user_no where user_no = ?;").toString();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, user_pk);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+                MaxRent = rs.getInt("max_rent");
+            }
+            pstmt.close();
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return MaxRent;
+    }
     public boolean bookState(int book_pk) {
         Connection conn = ConnectionManager.getConnection();
 
