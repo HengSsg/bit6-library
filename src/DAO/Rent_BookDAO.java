@@ -138,16 +138,16 @@ public class Rent_BookDAO {
             pstmt.setInt(1, user_num);
             ResultSet rs = pstmt.executeQuery();
             list = new ArrayList<BookDTO>();
-            BookDTO item = new BookDTO();
-
 
             while(rs.next()){
+                BookDTO item = new BookDTO();
                 item.setNo(rs.getInt("no"));
                 item.setBname(rs.getString("bname"));
                 item.setBwriter(rs.getString("bwriter"));
                 item.setBpublisher(rs.getString("bpublisher"));
                 list.add(item);
             }
+            //System.out.println(list);
             pstmt.close();
             con.close();
         } catch (SQLException e) {

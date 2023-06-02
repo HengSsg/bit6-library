@@ -68,7 +68,7 @@ public class Main {
 
         if (user != null) {
             // 맞으면 로그인된 메인화면으로 이동
-            System.out.println(user.getNo());
+            //System.out.println(user.getNo());
             System.out.println("로그인 성공하였습니다!!");
             this.mainLogined();
         } else {
@@ -105,6 +105,8 @@ public class Main {
             this.mainNotLogined();
         } else if ("5".equals(input)) {
             this.close();
+        } else{
+            this.mainLogined();
         }
 
     }
@@ -133,27 +135,31 @@ public class Main {
         }
         if (returnbookList.size() > 0) {
             System.out.println("반납할 책 번호 입력");
-            System.out.println(">> ");
-            String input = scanner.nextLine();
-
-            BookDTO book = (BookDTO) returnbookList.get(Integer.parseInt(input) - 1);
-            String bname = book.getBname();
-            System.out.println(bname + " 책을 반납하시겠습니까?");
-            System.out.println("1. 반납하기");
-            System.out.println("2. 나가기");
             System.out.print(">> ");
+            String input = scanner.nextLine();
+            try{
+                BookDTO book = (BookDTO) returnbookList.get(Integer.parseInt(input) - 1);
+                String bname = book.getBname();
+                System.out.println(bname + " 책을 반납하시겠습니까?");
+                System.out.println("1. 반납하기");
+                System.out.println("2. 나가기");
+                System.out.print(">> ");
 
-            input = scanner.nextLine();
+                input = scanner.nextLine();
 
-            if ("1".equals(input)) {
-                Rent_BookService rent_bookService = new Rent_BookService();
-                if (rent_bookService.Return_Book(book.getNo())) {
-                    System.out.println(bname + "정상 데이터 베이스 반영");
+                if ("1".equals(input)) {
+                    Rent_BookService rent_bookService = new Rent_BookService();
+                    if (rent_bookService.Return_Book(book.getNo())) {
+                        System.out.println(bname + "정상 데이터 베이스 반영");
+                        this.mainLogined();
+                    }
+                } else if ("2".equals(input)) {
                     this.mainLogined();
+                } else {
+                    this.ReturnBookView();
                 }
-            } else if ("2".equals(input)) {
-                this.mainLogined();
-            } else {
+            }catch(IndexOutOfBoundsException e){
+                System.out.println("반납할 책 번호를 다시 입력해주세요");
                 this.ReturnBookView();
             }
         } else {
@@ -188,6 +194,10 @@ public class Main {
             String bname = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);
+            if(bookList.size() == 0) {
+                System.out.println("찾으시는 도서가 없습니다.");
+                this.checkBookView();
+            }
             int i = 0;
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState(book.getNo());
@@ -208,6 +218,10 @@ public class Main {
             String bwriter = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectWriter(bwriter);
+            if(bookList.size() == 0) {
+                System.out.println("찾으시는 저자가 없습니다.");
+                this.checkBookView();
+            }
             int i = 0;
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState(book.getNo());
@@ -228,6 +242,10 @@ public class Main {
             String bpublisher = scanner.nextLine();
 
             List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
+            if(bookList.size() == 0) {
+                System.out.println("찾으시는 출판사가 없습니다.");
+                this.checkBookView();
+            }
             int i = 0;
             for (BookDTO book : bookList) {
                 String bookState = bookService.bookState(book.getNo());
@@ -266,11 +284,11 @@ public class Main {
             this.checkBookView();
         }
 
-        if (user != null) {
-            this.goToHome();
-        } else {
-            this.mainNotLogined();
-        }
+//        if (user != null) {
+//            this.goToHome();
+//        } else {
+//            this.mainNotLogined();
+//        }
 
     }
 
