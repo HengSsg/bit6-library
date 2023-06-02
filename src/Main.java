@@ -335,6 +335,7 @@ public class Main {
                 else if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
                     System.out.println(bname + "정상 데이터 베이스 삽입");
                     // 서비스 삽입
+                    user = userService.login(user.getID(), user.getPW());
                     userService.upgradeAuth(user.getAUTH_code());
                     this.mainLogined();
                 } else {
@@ -372,6 +373,7 @@ public class Main {
         String input = scanner.nextLine(); //
         if (menu[3].equals(menu[i - Integer.parseInt(input)])) {
             //독후감 작성
+            user = userService.login(user.getID(), user.getPW());
             reportService.findByUserNo(user.getNo(), user.getAUTH_code());
             System.out.println(selectMenu);
             System.out.println("1. 처음으로");
