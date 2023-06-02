@@ -155,6 +155,43 @@ public class Rent_BookDAO {
         }
         return list;
     }
+    public boolean bookState(int book_pk) {
+        Connection conn = ConnectionManager.getConnection();
+
+        boolean result = false;
+        String sql = "SELECT rentYN from rent_book where book_no = ?";
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, book_pk);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                if(rs.getInt("rentYN")==0) {
+                    result = true;
+                }
+            }else{
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null || pstmt != null || conn != null) {
+                try {
+                    rs.close();
+                    pstmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return result;
+    }
      /*public void ex_pass_Deadline(Rent_BookDTO rent_book){
         boolean flag = false;
         Connection con = ConnectionManager.getConnection();

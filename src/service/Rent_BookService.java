@@ -20,7 +20,7 @@ import java.util.List;
 public class Rent_BookService {
     public boolean Rent_Book(int book_pk, int user_pk){//rent_bookDTO에는 지금 반납할 책 Pk가 들어가 있음
         boolean flag = false;
-        Connection con = ConnectionManager.getConnection();
+
         Rent_BookDAO rent_bookDAO = new Rent_BookDAO();
         if(rent_bookDAO.Insert_Rent_Book(book_pk, user_pk)) {
             flag = true;
@@ -35,12 +35,18 @@ public class Rent_BookService {
     }
     public boolean Return_Book(int book_pk){
         boolean flag = false;
-        Connection con = ConnectionManager.getConnection();
+
         Rent_BookDAO rent_bookDAO = new Rent_BookDAO();
         if(rent_bookDAO.Update_Rent_Book(book_pk)){//delete하는데 성공했으면 flag를 true로 바꿔서 main에 flag값 반환 값이용할거면 이용하기
             flag = true;
         }
         return flag;
+    }
+    public boolean bookState(int book_pk) {
+        Rent_BookDAO dao = new Rent_BookDAO();
+        boolean bookStatus = dao.bookState(book_pk);
+
+        return bookStatus;
     }
     public boolean IsPass_DeadLine(int user_num){//대출 시 데드라인이 넘었는지 확인함
         boolean flag = false;

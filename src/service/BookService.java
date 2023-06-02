@@ -34,10 +34,10 @@ public class BookService {
 	}
 
 	// 해당 도서의 상태를 조회
-	public String bookState() {
-		String bookStatus = dao.bookState();
+	public String bookState(int book_pk) {
+		boolean bookStatus = dao.bookState(book_pk);
 
-		if (bookStatus.equals("대출가능")) {
+		if (bookStatus) {
 			return "대출가능";
 		} else {
 			return "대출중";

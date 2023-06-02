@@ -144,31 +144,30 @@ public class BookDAO {
 
 
 	//  도서의 상태를 확인
-	public String bookState() {
+	public boolean bookState(int book_pk) {
 		Connection conn = ConnectionManager.getConnection();
 
-		String result = "";
-		String sql = "SELECT count(*) from book b "
-				+ "JOIN rent_book rb "
-				+ "ON b.no = rb.no";
+		boolean result = false;
+		String sql = "SELECT rentYN from rent_book where book_no = ?";
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, book_pk);
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				int count = rs.getInt(1);
-
-				if(count == 0) {
-					result = "대출가능";
-				} else {
-					result = "대출중";
+				System.out.println(rs.getInt("rentYN"));
+				if(rs.getInt("rentYN")==1) {
+					result = false;
+				}else{
+					result = true;
 				}
+			}else{
+				result = true;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

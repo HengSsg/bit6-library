@@ -182,7 +182,7 @@ public class Main {
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);
             int i = 0;
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
+                String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
                 System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
@@ -205,7 +205,7 @@ public class Main {
             System.out.println(bookList);
             int i = 0;
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
+                String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
                 System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
@@ -227,7 +227,7 @@ public class Main {
             List<BookDTO> bookList = bookService.bookSelectPublisher(bpublisher);
             int i = 0;
             for (BookDTO book : bookList) {
-                String bookState = bookService.bookState();
+                String bookState = bookService.bookState(book.getNo());
                 System.out.println(partition);
                 System.out.println("책번호: " + ++i);
                 System.out.println("책이름: " + book.getBname());
@@ -274,11 +274,13 @@ public class Main {
         if ("1".equals(input)) {
             Rent_BookService rent_bookService = new Rent_BookService();
             if(rent_bookService.IsPass_DeadLine(user.getNo())) {
-
                 this.mainLogined();
             }else{
-                if (rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
+                if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
                     System.out.println(bname + "정상 데이터 베이스 삽입");
+                    this.mainLogined();
+                }else{
+                    System.out.println("이미 대출중인 책입니다.");
                     this.mainLogined();
                 }
             }
