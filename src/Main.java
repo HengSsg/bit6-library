@@ -172,8 +172,7 @@ public class Main {
         System.out.println("3. 출판사 명");
         System.out.println("4. 최다 대출 도서 확인");
         System.out.println("5. 최소 대출 도서 확인");
-        System.out.printf(">>");
-
+        System.out.println("6. 메인화면으로 이동");
         System.out.println(partition);
 
         System.out.print(">>");
@@ -250,15 +249,20 @@ public class Main {
 
             System.out.println("최다 대출 도서는 " + mostBorrowedBook + " 입니다.");
 
-        } else if(input.equals("5")) {
-        	
-        	System.out.println(partition);
-        	
-        	String leastBorrowBook = bookService.getLeastBorrowBook();
-        	
+        } else if (input.equals("5")) {
+
+            System.out.println(partition);
+
+            String leastBorrowBook = bookService.getLeastBorrowBook();
+
             System.out.println("최소 대출 도서는 " + leastBorrowBook + " 입니다.");
-        }
-         else {
+        } else if ("6".equals(input)) {
+            if(user == null) {
+                this.mainNotLogined();
+            } else {
+                this.mainLogined();
+            }
+        } else {
             this.checkBookView();
         }
 
@@ -290,7 +294,7 @@ public class Main {
         input = scanner.nextLine();
         if ("1".equals(input)) {
             Rent_BookService rent_bookService = new Rent_BookService();
-            if(rent_bookService.IsPass_DeadLine(user.getNo())) {
+            if (rent_bookService.IsPass_DeadLine(user.getNo())) {
                 this.mainLogined();
             }else{
                 int rentBookUser_num = rent_bookService.RentBookUser(user.getNo()).size();
@@ -302,7 +306,7 @@ public class Main {
                 else if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
                     System.out.println(bname + "정상 데이터 베이스 삽입");
                     this.mainLogined();
-                }else{
+                } else {
                     System.out.println("이미 대출중인 책입니다.");
                     this.mainLogined();
                 }
@@ -347,10 +351,10 @@ public class Main {
                 if ("1".equals(input)) {
                     boolean result =
                             userService.communityN(user.getName());
-                    if(result) {
+                    if (result) {
                         user.setComunity_YN("0");
                         this.communityView();
-                    } else{
+                    } else {
                         System.out.println("가입 후 한달뒤에 탈퇴가 가능합니다.");
                         System.out.println("탈퇴에 실패하였습니다.");
                         this.communityView();
