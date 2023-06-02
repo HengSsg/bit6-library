@@ -16,8 +16,8 @@ public class BookDAO {
 
 		String sql = "SELECT  b.no, bname, bwriter, bpublisher, rb.rentYn "
 				+ "FROM book b "
-				+ "LEFT JOIN rent_book rb "
-				+ "ON b.no = rb.no "
+				+ "JOIN rent_book rb "
+				+ "ON b.no = rb.book_no "
 				+ "WHERE bname LIKE ?";
 
 		PreparedStatement pstmt = null;
@@ -50,7 +50,6 @@ public class BookDAO {
 				listBook.add(b);
 
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -75,8 +74,8 @@ public class BookDAO {
 
 		String sql = "SELECT b.no, bname, bwriter, bpublisher, rb.rentYn "
 				+ "FROM book b "
-				+ "LEFT JOIN rent_book rb "
-				+ "ON b.no = rb.no "
+				+ "JOIN rent_book rb "
+				+ "ON b.no = rb.book_no "
 				+ "WHERE bwriter like ? ";
 
 
@@ -134,8 +133,8 @@ public class BookDAO {
 
 		String sql = "SELECT b.no, bname, bwriter, bpublisher, rb.rentYn "
 					+ "FROM book b "
-					+ "LEFT JOIN rent_book rb "
-					+ "ON b.no = rb.no "
+					+ "JOIN rent_book rb "
+					+ "ON b.no = rb.book_no "
 					+ "WHERE bpublisher like ?";
 
 		PreparedStatement pstmt = null;
@@ -156,7 +155,7 @@ public class BookDAO {
 				b.setBpublisher(rs.getString("bpublisher"));
 
 				int rentYn = rs.getInt("rentYn");
-	            
+
 		           if(rs.wasNull()) {
 		        	   b.setRentMsg("대출 가능");
 		           }else if(rentYn == 1) {
@@ -202,7 +201,7 @@ public class BookDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				System.out.println(rs.getInt("rentYN"));
+				//System.out.println(rs.getInt("rentYN"));
 				if(rs.getInt("rentYN")==1) {
 					result = false;
 				}else{

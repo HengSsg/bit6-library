@@ -51,15 +51,16 @@ public class ReportService {
                 "JOIN book b ON rb.book_no = b.no where user_no = ?";
         List<ReportDTO> list = dao.findByUserNo(sql, userNo);
         int cnt = list.size();
-        System.out.println("=============================================");
-        System.out.println("독후감 작성할 도서 번호를 입력해주세요.");
-        System.out.println(">>");
-        int menuNum = Integer.parseInt(scanner.nextLine());
-        if(menuNum <= cnt){
-            System.out.println("["+list.get(menuNum-1).getBname()+"] 독후감 작성하시겠습니까?");
-            System.out.println("1.작성");
-            System.out.println("2.취소");
+        if(cnt > 0) {
+            System.out.println("=============================================");
+            System.out.println("독후감 작성할 도서 번호를 입력해주세요.");
             System.out.println(">>");
+            int menuNum = Integer.parseInt(scanner.nextLine());
+            if (menuNum <= cnt) {
+                System.out.println("[" + list.get(menuNum - 1).getBname() + "] 독후감 작성하시겠습니까?");
+                System.out.println("1.작성");
+                System.out.println("2.취소");
+                System.out.println(">>");
             String menuNum2 = scanner.nextLine();
             if("1".equals(menuNum2)){
                 int bookNo = list.get(menuNum-1).getBook_no();
@@ -67,35 +68,39 @@ public class ReportService {
                 this.insertReport(bookNo, userNo2, grade);
             } else if ("2".equals(menuNum2)) {
 
+                } else {
+                    this.findByUserNo(userNo);
+                }
             } else {
                 this.findByUserNo(userNo, grade);
             }
         }else{
-            this.findByUserNo(userNo, grade);
+            System.out.println("도서 대출내역이 없습니다. 대출한 도서에 한하여 독후감 작성이 가능합니다.");
+            System.out.println("=============================================");
         }
-
-        return list;
     }
 
     //유저가 작성한 독후감 조회
-    public List<ReportDTO> reportByUserNo(int userNo){
+    public void reportByUserNo(int userNo){
         String sql = "select * from report " +
                 "where user_no = ?";
         List<ReportDTO> list = dao.reportByUserNo(sql, userNo);
         int cnt = list.size();
-        System.out.println("=============================================");
-        System.out.println("조회할 독후감을 선택해주세요.");
-        System.out.println(">>");
-        int menuNum = Integer.parseInt(scanner.nextLine());
-        if(menuNum <= cnt){
+        if(cnt > 0) {
             System.out.println("=============================================");
-            System.out.println("독후감 제목: " + list.get(menuNum-1).getTitle());
-            System.out.println("독후감 내용: " + list.get(menuNum-1).getContents());
-            System.out.println("작성일자: " + list.get(menuNum-1).getCDT());
-        }else{
-            this.reportByUserNo(userNo);
+            System.out.println("조회할 독후감을 선택해주세요.");
+            System.out.println(">>");
+            int menuNum = Integer.parseInt(scanner.nextLine());
+            if (menuNum <= cnt) {
+                System.out.println("=============================================");
+                System.out.println("독후감 제목: " + list.get(menuNum - 1).getTitle());
+                System.out.println("독후감 내용: " + list.get(menuNum - 1).getContents());
+                System.out.println("작성일자: " + list.get(menuNum - 1).getCDT());
+            } else {
+                this.reportByUserNo(userNo);
+            }
+        } else{
+            System.out.println("작성한 독후감이 존재하지 않습니다.");
         }
-
-        return list;
     }
 }

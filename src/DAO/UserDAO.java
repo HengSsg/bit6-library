@@ -29,7 +29,7 @@ public class UserDAO {
                         rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10));
             }
 
-            System.out.println(user.getID() + user.getPW());
+            //System.out.println(user.getID() + user.getPW());
             pstmt.close();
             rs.close();
             con.close();
