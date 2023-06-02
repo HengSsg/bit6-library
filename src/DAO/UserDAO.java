@@ -41,13 +41,24 @@ public class UserDAO {
         return user;
     }
 
-    public void updateAuth(String grade, String username) throws SQLException {
+    public void updateRegular(String sql) throws SQLException {
         Connection con = ConnectionManager.getConnection();
-        String sql = "update user set auth_code=? where name=?;";
         PreparedStatement pstmt = con.prepareStatement(sql);
-        pstmt.setString(1, grade);
-        pstmt.setString(2, username);
-        pstmt.executeQuery();
+        pstmt.setInt(1, 1);
+        pstmt.setInt(2, 1);
+        pstmt.executeUpdate();
+
+        con.close();
+        pstmt.close();
+    }
+
+    public void updateSpecial(String sql) throws SQLException {
+        Connection con = ConnectionManager.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1, 1);
+        pstmt.setInt(2, 1);
+        pstmt.setInt(3, 1);
+        pstmt.executeUpdate();
 
         con.close();
         pstmt.close();

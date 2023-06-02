@@ -112,14 +112,14 @@ public class Main {
 
     }
 
-    public void reportInsertView() {
-        System.out.println(partition);
-        System.out.println("독후감 작성");
-        System.out.println(partition);
-
-        ReportService reportService = new ReportService();
-        reportService.findByUserNo(user.getNo());
-    }
+//    public void reportInsertView() {
+//        System.out.println(partition);
+//        System.out.println("독후감 작성");
+//        System.out.println(partition);
+//
+//        ReportService reportService = new ReportService();
+//        reportService.findByUserNo(user.getNo());
+//    }
 
     public void ReturnBookView() {
         System.out.println(partition);
@@ -310,6 +310,7 @@ public class Main {
             Rent_BookService rent_bookService = new Rent_BookService();
             if (rent_bookService.IsPass_DeadLine(user.getNo())) {
                 this.mainLogined();
+
             }else{
                 int rentBookUser_num = rent_bookService.RentBookUser(user.getNo()).size();
                 //System.out.println(rentBookUser_num);
@@ -319,6 +320,8 @@ public class Main {
                 }
                 else if (rent_bookService.bookState(book.getNo())&&rent_bookService.Rent_Book(book.getNo(), user.getNo())) {
                     System.out.println(bname + "정상 데이터 베이스 삽입");
+                    // 서비스 삽입
+                    userService.upgradeAuth(user.getAUTH_code());
                     this.mainLogined();
                 } else {
                     System.out.println("이미 대출중인 책입니다.");
