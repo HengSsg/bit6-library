@@ -3,9 +3,7 @@ package service;
 import java.util.List;
 import DAO.BookDAO;
 import DTO.BookDTO;
-
 public class BookService {
-
 	private BookDAO dao;
 
 	public BookService() {
@@ -45,9 +43,14 @@ public class BookService {
 	}
 
 	// 최다 도서 대출 조회
-	public String getMostBorrowedBookName() {
-		String mostBorrowedBookName = dao.getMostBorrowedBookName();
-		return mostBorrowedBookName;
-	}
+	   public String getMostBorrowedBookName() {
+	       String mostBorrowedBookName = dao.getMostBorrowedBookName();
+	       return mostBorrowedBookName;
+	   }
 
+	// 최소 도서 대출 조회
+	   public String getLeastBorrowBook() {
+		   String leastBorrowBook = dao.getLeastBorrowBook();
+		   return leastBorrowBook;
+	   }
 }

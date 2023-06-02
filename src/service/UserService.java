@@ -3,8 +3,6 @@ package service;
 import DAO.UserDAO;
 import DTO.UserDTO;
 
-import java.sql.SQLException;
-
 public class UserService {
 
     UserDAO userDAO;
@@ -63,5 +61,22 @@ public class UserService {
         return flag;
     }
 
+    public boolean communityN(String username) { // 커뮤니티 취소
+        boolean status = false; // true는 커뮤니티 등록된 상태, flase는 커뮤니티 취소된 상태
+
+        status = userDAO.quitCommunity(username);
+
+
+        return status;
+    }
+
+    public boolean communityY(String username) { // 커뮤니티 취소
+        boolean status = false; // true는 커뮤니티 등록된 상태, flase는 커뮤니티 취소된 상태
+
+        status = userDAO.joinCommunity(username);
+
+
+        return status;
+    }
 
 }

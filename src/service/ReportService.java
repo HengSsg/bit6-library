@@ -62,7 +62,9 @@ public class ReportService {
                 int bookNo = list.get(menuNum-1).getBook_no();
                 int userNo2 = list.get(menuNum-1).getUser_no();
                 this.insertReport(bookNo, userNo2);
-            }else {
+            } else if ("2".equals(menuNum2)) {
+
+            } else {
                 this.findByUserNo(userNo);
             }
         }else{
