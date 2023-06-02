@@ -342,7 +342,7 @@ public class Main {
         System.out.println(partition);
         System.out.println(selectMenu);
         int i = 1;
-        String[] menu = {"독후감 작성", "내가 쓴 독후감 보기", "커뮤니티 탈퇴", "커뮤니티 가입", "처음으로"};
+        String[] menu = {"커뮤니티 가입", "커뮤니티 탈퇴", "내가 쓴 독후감 보기", "독후감 작성"};
 
         if("1".equals(user.getComunity_YN())) {
             System.out.println(i++ +". 독후감 작성");
@@ -356,7 +356,7 @@ public class Main {
         System.out.println(i +". 처음으로");
         System.out.printf(">>");
         String input = scanner.nextLine(); //
-        if (menu[0].equals(menu[Integer.parseInt(input)-1])) {
+        if (menu[3].equals(menu[i - Integer.parseInt(input)])) {
             //독후감 작성
             reportService.findByUserNo(user.getNo(), user.getAUTH_code());
             System.out.println(selectMenu);
@@ -366,7 +366,7 @@ public class Main {
             if(menuNum != null){
                 this.communityView();
             }
-        } else if (menu[1].equals(menu[Integer.parseInt(input)-1])) {
+        } else if (menu[2].equals(menu[i - Integer.parseInt(input)])) {
             //내가쓴독후감보기
             reportService.reportByUserNo(user.getNo());
             System.out.println(selectMenu);
@@ -376,7 +376,7 @@ public class Main {
             if(menuNum != null){
                 this.communityView();
             }
-        } else if (menu[2].equals(menu[Integer.parseInt(input)-1])) {
+        } else if (menu[1].equals(menu[i - Integer.parseInt(input)])) {
             if (user.getComunity_YN().equals("1")) {
                 System.out.println(partition);
                 System.out.println("정말 탈퇴 하시겠습니까?");
