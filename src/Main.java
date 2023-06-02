@@ -192,7 +192,6 @@ public class Main {
             System.out.println("제목을 입력해주세요 ");
             System.out.printf(" >> ");
             String bname = scanner.nextLine();
-
             List<BookDTO> bookList = bookService.bookSelectTitle(bname);
             if(bookList.size() == 0) {
                 System.out.println("찾으시는 도서가 없습니다.");
@@ -205,7 +204,7 @@ public class Main {
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
+                System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
             this.rentbookview(bookList);
@@ -228,7 +227,7 @@ public class Main {
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
+                System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
             this.rentbookview(bookList);
@@ -251,7 +250,7 @@ public class Main {
                 System.out.println("책이름: " + book.getBname());
                 System.out.println("저자: " + book.getBwriter());
                 System.out.println("출판사: " + book.getBpublisher());
-                System.out.println("상태 : " + bookState);
+                System.out.println("상태 : " + book.getRentMsg());
                 System.out.println(partition);
             }
             this.rentbookview(bookList);

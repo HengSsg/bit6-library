@@ -14,9 +14,9 @@ public class BookDAO {
 
 	public List<BookDTO> bookSelectTitle(String bname) {
 
-		String sql = "SELECT  b.no, bname, bwriter, bpublisher, rb.rentYn "
+		String sql = "SELECT  b.no, bname, bwriter, bpublisher, IFNULL(rb.rentYn,0) AS rentYn "
 				+ "FROM book b "
-				+ "JOIN rent_book rb "
+				+ "LEFT JOIN rent_book rb "
 				+ "ON b.no = rb.book_no "
 				+ "WHERE bname LIKE ?";
 
@@ -72,9 +72,9 @@ public class BookDAO {
 	public List<BookDTO> bookSelectWriter(String bwriter) {
 		Connection conn = ConnectionManager.getConnection();
 
-		String sql = "SELECT b.no, bname, bwriter, bpublisher, rb.rentYn "
+		String sql = "SELECT b.no, bname, bwriter, bpublisher, IFNULL(rb.rentYn,0) AS rentYn "
 				+ "FROM book b "
-				+ "JOIN rent_book rb "
+				+ "LEFT JOIN rent_book rb "
 				+ "ON b.no = rb.book_no "
 				+ "WHERE bwriter like ? ";
 
@@ -131,9 +131,9 @@ public class BookDAO {
 	public List<BookDTO> bookSelectPublisher(String bpublisher) {
 		Connection conn = ConnectionManager.getConnection();
 
-		String sql = "SELECT b.no, bname, bwriter, bpublisher, rb.rentYn "
+		String sql = "SELECT b.no, bname, bwriter, bpublisher, IFNULL(rb.rentYn,0) AS rentYn "
 					+ "FROM book b "
-					+ "JOIN rent_book rb "
+					+ "LEFT JOIN rent_book rb "
 					+ "ON b.no = rb.book_no "
 					+ "WHERE bpublisher like ?";
 
