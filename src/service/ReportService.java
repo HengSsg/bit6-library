@@ -9,15 +9,16 @@ import java.util.Scanner;
 
 public class ReportService {
     public ReportDAO dao;
-
+    public UserService userService;
     public ReportService(){
         dao = new ReportDAO();
+        userService = new UserService();
     }
 
     Scanner scanner = new Scanner(System.in);
 
     //독후감 작성
-    public void insertReport(int bookNo, int userNo){
+    public void insertReport(int bookNo, int userNo, String grade){
         ReportDTO reportDTO = new ReportDTO();
 
         System.out.println("제목: ");
@@ -39,11 +40,13 @@ public class ReportService {
             String sql = "INSERT INTO report (title, contents, user_no, book_no, cdt) " +
                     "VALUES (?,?,?,?,now())";
             dao.insertReport(sql, reportDTO);
+            userService.upgradeAuth(grade);
+
         }
     }
 
     //유저가 대출한 도서 목록 조회
-    public List<ReportDTO> findByUserNo(int userNo){
+    public List<ReportDTO> findByUserNo(int userNo, String grade){
         String sql = "select b.bname, rb.book_no, rb.user_no from rent_book rb " +
                 "JOIN book b ON rb.book_no = b.no where user_no = ?";
         List<ReportDTO> list = dao.findByUserNo(sql, userNo);
@@ -61,14 +64,14 @@ public class ReportService {
             if("1".equals(menuNum2)){
                 int bookNo = list.get(menuNum-1).getBook_no();
                 int userNo2 = list.get(menuNum-1).getUser_no();
-                this.insertReport(bookNo, userNo2);
+                this.insertReport(bookNo, userNo2, grade);
             } else if ("2".equals(menuNum2)) {
 
             } else {
-                this.findByUserNo(userNo);
+                this.findByUserNo(userNo, grade);
             }
         }else{
-            this.findByUserNo(userNo);
+            this.findByUserNo(userNo, grade);
         }
 
         return list;
