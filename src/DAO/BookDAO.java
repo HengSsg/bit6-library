@@ -202,7 +202,7 @@ public class BookDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				System.out.println(rs.getInt("rentYN"));
+				//System.out.println(rs.getInt("rentYN"));
 				if(rs.getInt("rentYN")==1) {
 					result = false;
 				}else{
@@ -291,7 +291,7 @@ public class BookDAO {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                mostBorrowedBookName = rs.getString("bname");
+				leastBorrowBook = rs.getString("bname");
             }
 
         } catch (SQLException e) {
